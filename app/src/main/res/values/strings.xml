@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">OrganiserAndroidClient</string>
+    <string name="app_name">ORGANISER</string>
+    <string name="login_button">Log in</string>
+    <string name="register_button">Register</string>
+    <string name="go_offline_button">Go offline !</string>
+    <string name="login_name">Login</string>
+    <string name="password_name">Password</string>
+    <string name="title_activity_login">Organiser</string>
 </resources>
