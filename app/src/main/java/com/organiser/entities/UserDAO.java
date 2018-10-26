@@ -17,6 +17,7 @@ public class UserDAO {
         String postData = "login=" + login;
 
         connection = new ConnectionHandler(url,postData);
+        connection.disconnect();
     }
 
     public  void createUser(String login, String name, String password) throws Exception {
@@ -24,6 +25,7 @@ public class UserDAO {
         String postData = "login=" + login + "&name=" + name + "&password=" + password;
 
         connection = new ConnectionHandler(url,postData);
+        connection.disconnect();
 
     }
 
@@ -31,12 +33,14 @@ public class UserDAO {
         String url = this.url+"createusertable";
         String postData = "tablename="+tablename;
         connection = new ConnectionHandler(url,postData);
+        connection.disconnect();
 
     }
     public  void dropUserTable(String tablename) throws Exception {
         String url = this.url+"dropusertable";
         String postData = "tablename="+tablename;
         connection = new ConnectionHandler(url,postData);
+        connection.disconnect();
 
     }
 
@@ -44,6 +48,7 @@ public class UserDAO {
 
         String url = this.url+"users";
         connection = new ConnectionHandler(url,"");
+        connection.disconnect();
     }
 
     public  String login(String login, String password) throws Exception {
