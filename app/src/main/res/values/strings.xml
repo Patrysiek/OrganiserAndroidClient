@@ -6,4 +6,5 @@
     <string name="login_name">Login</string>
     <string name="password_name">Password</string>
     <string name="title_activity_login">Organiser</string>
+    <string name="default_text">defaultText</string>
 </resources>

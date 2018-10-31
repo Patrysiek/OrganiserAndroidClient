@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.organiser.R;
 import com.organiser.configuration.ActivityConfig;
-import com.organiser.entities.UserDAO;
+import com.organiser.user.UserDAO;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -61,10 +61,25 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void register(View view){
+        try {
+            if(password.getText().length()>0 && login.getText().length()>0) {
+                userData = new UserDAO().login(login.getText().toString(),password.getText().toString());
+                if(userData!=null) {
+                    //TODO
+                }
+            }
+            else{
+                Toast toast = Toast.makeText(getApplicationContext(), "Password or Login is empty", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
-    }
+}
 
     public void goOffline(View view){
+
 
     }
 

@@ -1,8 +1,4 @@
-package com.organiser.entities;
-
-import org.codehaus.jackson.map.ObjectMapper;
-
-import java.io.IOException;
+package com.organiser.user;
 
 public class User {
 

@@ -49,4 +49,7 @@ public class ConnectionHandler {
     public void disconnect(){
         conn.disconnect();
     }
+    public void close() throws IOException {
+        conn.getInputStream().close();
+    }
 }
