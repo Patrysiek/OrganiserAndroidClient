@@ -4,30 +4,35 @@ import com.organiser.task.Task;
 import com.organiser.task.TaskDAO;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TaskService {
     private TaskDAO taskDAO;
 
     public TaskService(){
     }
+
     public TaskService(String tableName){
         this.taskDAO = new TaskDAO(tableName);
     }
 
-public ArrayList<Task> getAllTasksFromDay(String date) throws Exception {
-        return taskDAO.getAllTasksFromDay(date);
-}
+    public ArrayList<Task> getAllTasksFromDay(String date) throws Exception {
+        try {
+            return taskDAO.getAllTasksFromDay(date);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-public void insertTask(String date,String description) throws Exception {
+    public void insertTask(String date,String description) throws Exception {
         taskDAO.insertTask(date,description);
-}
-public void deleteTask(int ID) throws Exception {
+    }
+    public void deleteTask(int ID) throws Exception {
         taskDAO.deleteTask(ID);
-}
-public void createTaskTable() throws Exception {
-        taskDAO.createTaskTable(taskDAO.getTablename());
-}
+    }
+    public void createTaskTable() throws Exception {
+        taskDAO.createTaskTable();
+    }
 
 
 

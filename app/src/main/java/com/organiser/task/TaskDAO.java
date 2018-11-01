@@ -46,13 +46,12 @@ public class TaskDAO {
         String postData = tablename+"&date=" + date;
 
         connection = new ConnectionHandler(url,postData);
-        String content = connection.readPage();
-        ArrayList<Task> taskList = ObjectParser.parserTaskList(content);
+        ArrayList<Task> taskList = ObjectParser.parserTaskList(connection.readPage());
         connection.close();
         connection.disconnect();
         return taskList;
     }
-    public void createTaskTable(String tablename)throws Exception {
+    public void createTaskTable()throws Exception {
         String url = this.url+"createtasktable";
         String postData = this.tablename;
 

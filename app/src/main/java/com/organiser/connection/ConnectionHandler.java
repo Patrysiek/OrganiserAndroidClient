@@ -1,5 +1,6 @@
 package com.organiser.connection;
 
+
 import android.os.StrictMode;
 
 import java.io.BufferedReader;
@@ -9,7 +10,7 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class ConnectionHandler {
+public class ConnectionHandler{
 
     private String url;
     private String postData;
@@ -52,4 +53,5 @@ public class ConnectionHandler {
     public void close() throws IOException {
         conn.getInputStream().close();
     }
+
 }
