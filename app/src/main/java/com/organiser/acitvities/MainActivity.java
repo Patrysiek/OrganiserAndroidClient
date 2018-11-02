@@ -4,17 +4,20 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.organiser.R;
 import com.organiser.configuration.ActivityConfig;
 import com.organiser.services.TaskService;
 import com.organiser.somePackage.ObjectParser;
+import com.organiser.task.ListViewTaskDTO;
 import com.organiser.task.Task;
-import com.organiser.task.TaskBar;
-import com.organiser.user.User;
+import com.organiser.task.TaskAdapter;
 
+import com.organiser.user.User;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,10 +26,14 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private TextView dateText;
-    private ArrayList<TaskBar> tasksForThisDay;
+    private ArrayList<ListViewTaskDTO> tasksForThisDay;
+    private ListView listViewWithCheckbox;
+    private TaskAdapter adapter;
     private Calendar calendar;
     private User user;
     private TaskService taskService;
+
+    private Button deleteButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         ActivityConfig.setFullScreen(this);
         setContentView(R.layout.activity_main);
 
+        initDeleteButton();
         initUser();
         initUserNameTitle();
         taskService = new TaskService("tabela");
@@ -41,6 +49,26 @@ public class MainActivity extends AppCompatActivity {
         initDateText();
 
         new TaskLoader().execute(getDate());
+
+    }
+
+    private void initDeleteButton() {
+        deleteButton = findViewById(R.id.delete_task);
+
+        deleteButton.setOnClickListener((view)-> {
+                if(tasksForThisDay!=null){
+                    int size = tasksForThisDay.size();
+                    for(int i =0; i<size; i++){
+                        ListViewTaskDTO dto = tasksForThisDay.get(i);
+                        if(dto.isChecked()) {
+                            tasksForThisDay.remove(dto);
+                            i--;
+                            size = tasksForThisDay.size();
+                        }
+                    }
+                }
+                initLayoutForTasks();
+            });
 
     }
 
@@ -74,15 +102,27 @@ public class MainActivity extends AppCompatActivity {
         tasksForThisDay = new ArrayList<>();
             List<Task> list = taskService.getAllTasksFromDay(date);
             for(Task t : list) {
-                tasksForThisDay.add(new TaskBar(t.getDescription(), this));
+                ListViewTaskDTO dto = new ListViewTaskDTO();
+                dto.setTaskText(t.getDescription());
+                dto.setChecked(false);
+                tasksForThisDay.add(dto);
             }
     }
 
-    private void initLayoutForTasks() {
-        LinearLayout layoutForTasks = findViewById(R.id.list_of_tasks);
-        layoutForTasks.removeAllViews();
-        for(TaskBar tb : tasksForThisDay)
-            layoutForTasks.addView(tb);
+    private void initLayoutForTasks(){
+        listViewWithCheckbox = findViewById(R.id.listview_for_tasks);
+        adapter = new TaskAdapter(this,tasksForThisDay);
+        adapter.notifyDataSetChanged();
+        listViewWithCheckbox.setAdapter(adapter);
+
+
+        listViewWithCheckbox.setOnItemClickListener((parent, view, position, id) -> {
+            ListViewTaskDTO taskDto = (ListViewTaskDTO)parent.getAdapter().getItem(position);
+            CheckBox taskCheckbox = view.findViewById(R.id.list_view_task_checkbox);
+
+            taskCheckbox.setChecked(!taskDto.isChecked());
+            taskDto.setChecked(!taskDto.isChecked());
+        });
     }
 /////////////////////////////////GETTERS && SETTERS/////////////////////////////////////////////////
 private void setDateText(String date){
@@ -113,7 +153,11 @@ private void setDateText(String date){
 
         @Override
         protected void onPostExecute(Void value) {
-            initLayoutForTasks();
+            try {
+                initLayoutForTasks();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
