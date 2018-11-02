@@ -3,7 +3,7 @@ package com.organiser.task;
 
 
 import com.organiser.connection.ConnectionHandler;
-import com.organiser.somePackage.ObjectParser;
+import com.organiser.helpers.ObjectParser;
 
 import java.util.ArrayList;
 

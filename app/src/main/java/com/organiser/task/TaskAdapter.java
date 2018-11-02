@@ -14,21 +14,21 @@ import java.util.List;
 public class TaskAdapter extends BaseAdapter {
 
 
-    private List<ListViewTaskDTO> listViewTaskDtoList;
+    private List<TaskDTOforListView> taskDTOList;
 
     private Context ctx;
 
-    public TaskAdapter(Context ctx, List<ListViewTaskDTO> listViewTaskDtoList) {
+    public TaskAdapter(Context ctx, List<TaskDTOforListView> taskDTOList) {
         this.ctx = ctx;
-        this.listViewTaskDtoList = listViewTaskDtoList;
+        this.taskDTOList = taskDTOList;
     }
 
     @Override
     public int getCount() {
         int ret = 0;
-        if(listViewTaskDtoList !=null)
+        if(taskDTOList !=null)
         {
-            ret = listViewTaskDtoList.size();
+            ret = taskDTOList.size();
         }
         return ret;
     }
@@ -36,8 +36,8 @@ public class TaskAdapter extends BaseAdapter {
     @Override
     public Object getItem(int itemIndex) {
         Object ret = null;
-        if(listViewTaskDtoList !=null) {
-            ret = listViewTaskDtoList.get(itemIndex);
+        if(taskDTOList !=null) {
+            ret = taskDTOList.get(itemIndex);
         }
         return ret;
     }
@@ -64,15 +64,13 @@ public class TaskAdapter extends BaseAdapter {
             TextView listTaskText = convertView.findViewById(R.id.list_view_task_text);
 
             viewHolder = new ListViewTaskHolder(convertView);
-
             viewHolder.setTaskCheckbox(listTaskCheckbox);
-
             viewHolder.setTaskTextView(listTaskText);
 
             convertView.setTag(viewHolder);
         }
 
-        ListViewTaskDTO listViewItemDto = listViewTaskDtoList.get(itemIndex);
+        TaskDTOforListView listViewItemDto = taskDTOList.get(itemIndex);
         viewHolder.getTaskCheckbox().setChecked(listViewItemDto.isChecked());
         viewHolder.getTaskTextView().setText(listViewItemDto.getTaskText());
 

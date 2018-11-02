@@ -1,9 +1,10 @@
 package com.organiser.task;
 
-public class ListViewTaskDTO {
+public class TaskDTOforListView {
     private boolean checked = false;
 
     private String taskText = "";
+    private int ID;
 
     public boolean isChecked() {
         return checked;
@@ -19,5 +20,13 @@ public class ListViewTaskDTO {
 
     public void setTaskText(String taskText) {
         this.taskText = taskText;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
     }
 }

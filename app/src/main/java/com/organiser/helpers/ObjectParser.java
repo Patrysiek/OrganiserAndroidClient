@@ -1,12 +1,10 @@
-package com.organiser.somePackage;
+package com.organiser.helpers;
 
 import com.organiser.task.Task;
 import com.organiser.user.User;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;

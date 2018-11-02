@@ -1,91 +1,77 @@
 package com.organiser.acitvities;
 
+
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+
+import com.organiser.Dialogs.AddTaskDialog;
 import com.organiser.R;
 import com.organiser.configuration.ActivityConfig;
 import com.organiser.services.TaskService;
-import com.organiser.somePackage.ObjectParser;
-import com.organiser.task.ListViewTaskDTO;
-import com.organiser.task.Task;
+import com.organiser.helpers.MainActivityHelper;
+import com.organiser.helpers.ObjectParser;
 import com.organiser.task.TaskAdapter;
+import com.organiser.task.TaskDTOforListView;
 
 import com.organiser.user.User;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AddTaskDialog.TaskDialogListener{
 
     private TextView dateText;
-    private ArrayList<ListViewTaskDTO> tasksForThisDay;
+
+    private ArrayList<TaskDTOforListView> tasksForThisDay;
     private ListView listViewWithCheckbox;
-    private TaskAdapter adapter;
     private Calendar calendar;
+
     private User user;
     private TaskService taskService;
-
-    private Button deleteButton;
+    private MainActivityHelper helper;
+    private Button addButton,editButton,deleteButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityConfig.setFullScreen(this);
         setContentView(R.layout.activity_main);
+        helper = new MainActivityHelper(this);
 
-        initDeleteButton();
-        initUser();
-        initUserNameTitle();
+        user = helper.initUser();
+        TextView userNameTitle = helper.initUserNameTitle();
+        userNameTitle.setText(user.getName());
+
         taskService = new TaskService("tabela");
         calendar = Calendar.getInstance();
-        initDateText();
+        dateText = helper.initDateText();
 
-        new TaskLoader().execute(getDate());
+        addButton = helper.initAddButton();
+        deleteButton = helper.initDeleteButton();
+        editButton = helper.initEditButton();
 
-    }
-
-    private void initDeleteButton() {
-        deleteButton = findViewById(R.id.delete_task);
-
-        deleteButton.setOnClickListener((view)-> {
-                if(tasksForThisDay!=null){
-                    int size = tasksForThisDay.size();
-                    for(int i =0; i<size; i++){
-                        ListViewTaskDTO dto = tasksForThisDay.get(i);
-                        if(dto.isChecked()) {
-                            tasksForThisDay.remove(dto);
-                            i--;
-                            size = tasksForThisDay.size();
-                        }
-                    }
-                }
-                initLayoutForTasks();
-            });
-
-    }
-
-    private void initUserNameTitle() {
-        TextView userNameTitle = findViewById(R.id.user_name_title);
-        userNameTitle.setText(user.getName());
-    }
-
-    private void initUser() {
-            user = ObjectParser.parseUser(getIntent().getStringExtra("userData"));
-    }
-
-    private void initDateText() {
-        dateText = findViewById(R.id.date_text);
         setDate(new Date(System.currentTimeMillis()),0);
+        new TaskLoader().execute(getDate());
+        setAddButtonListener();
+        setDeleteButtonListener();
     }
-
+    ///////////////////////////////LISTENERS/////////////////////////////////////////////////////////
+    private void setAddButtonListener() {
+        addButton.setOnClickListener((view) ->{
+            DialogFragment newFragment = new AddTaskDialog();
+            newFragment.show(getSupportFragmentManager(), "addTaskDialog");
+        });
+    }
     public void switchDay(View view) {
         switch (view.getId()) {
             case R.id.next_date_button:
@@ -97,54 +83,70 @@ public class MainActivity extends AppCompatActivity {
         }
         new TaskLoader().execute(getDate());
     }
-
-    private void initTasksForThisDayList(String date) throws  Exception {
-        tasksForThisDay = new ArrayList<>();
-            List<Task> list = taskService.getAllTasksFromDay(date);
-            for(Task t : list) {
-                ListViewTaskDTO dto = new ListViewTaskDTO();
-                dto.setTaskText(t.getDescription());
-                dto.setChecked(false);
-                tasksForThisDay.add(dto);
+    private void setDeleteButtonListener() {
+        deleteButton.setOnClickListener((view)-> {
+            int size = tasksForThisDay.size();
+            for(int i =0; i<size; i++){
+                TaskDTOforListView dto = tasksForThisDay.get(i);
+                if(dto.isChecked()) {
+                    try {
+                        System.out.println(dto.getID());
+                        taskService.deleteTask(dto.getID());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
+            new TaskLoader().execute(getDate());
+        });
     }
 
-    private void initLayoutForTasks(){
-        listViewWithCheckbox = findViewById(R.id.listview_for_tasks);
-        adapter = new TaskAdapter(this,tasksForThisDay);
-        adapter.notifyDataSetChanged();
-        listViewWithCheckbox.setAdapter(adapter);
-
-
+    public void setListViewListener(){
         listViewWithCheckbox.setOnItemClickListener((parent, view, position, id) -> {
-            ListViewTaskDTO taskDto = (ListViewTaskDTO)parent.getAdapter().getItem(position);
+            TaskDTOforListView taskDto = (TaskDTOforListView)parent.getAdapter().getItem(position);
             CheckBox taskCheckbox = view.findViewById(R.id.list_view_task_checkbox);
 
             taskCheckbox.setChecked(!taskDto.isChecked());
             taskDto.setChecked(!taskDto.isChecked());
         });
     }
-/////////////////////////////////GETTERS && SETTERS/////////////////////////////////////////////////
-private void setDateText(String date){
-    dateText.setText(date);
-}
+    @Override
+    public void onDialogPositiveClick(String  description) {
+        try {
+            taskService.insertTask(getDate(),description);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        new TaskLoader().execute(getDate());
+    }
+
+    /////////////////////////////////GETTERS && SETTERS/////////////////////////////////////////////
+    public void setDateText(String date){
+        dateText.setText(date);
+    }
     private String getDate(){
         return dateText.getText().toString();
     }
 
-    private void setDate(Date date, int day) {
+    public void setDate(Date date, int day) {
         calendar.setTime(date);
         calendar.add(Calendar.DAY_OF_YEAR, day);
         setDateText( ObjectParser.parserDateToString(calendar.getTime()));
     }
-////////////////////////////////////////////////////////////////////////////////////////////////////
+    public TaskService getTaskService() {
+        return taskService;
+    }
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     private class TaskLoader extends AsyncTask<String,Void,Void>{
 
 
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                initTasksForThisDayList(strings[0]);
+                tasksForThisDay = helper.initTasksForThisDayList(strings[0]);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -154,7 +156,8 @@ private void setDateText(String date){
         @Override
         protected void onPostExecute(Void value) {
             try {
-                initLayoutForTasks();
+                listViewWithCheckbox = helper.initLayoutForTasks(tasksForThisDay);
+                setListViewListener();
             } catch (Exception e) {
                 e.printStackTrace();
             }
