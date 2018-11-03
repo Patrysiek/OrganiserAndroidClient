@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.organiser.R;
-import com.organiser.configuration.ActivityConfig;
 import com.organiser.services.UserService;
 import com.organiser.user.UserDAO;
 
@@ -21,7 +20,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityConfig.setFullScreen(this);
         setContentView(R.layout.activity_login);
         login = findViewById(R.id.login_edit);
         password = findViewById(R.id.password_edit);
@@ -47,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void register(View view){
-        //init register activity
+       startActivity(new Intent(this,RegisterActivity.class));
     }
 
     public void goOffline(View view){
@@ -74,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
-            if(s!=null) {
+            if(!s.equals(null) && !s.equals("") && s.length()>0) {
                 startMainActivity(s);
             }
             else{

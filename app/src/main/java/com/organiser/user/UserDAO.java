@@ -21,14 +21,15 @@ public class UserDAO {
         connection.disconnect();
     }
 
-    public  void createUser(String login, String name, String password) throws Exception {
+    public  String createUser(String login, String name, String password) throws Exception {
         String url = this.url+"createuser";
         String postData = "login=" + login + "&name=" + name + "&password=" + password;
 
         connection = new ConnectionHandler(url,postData);
+        String userData = connection.readPage();
         connection.close();
         connection.disconnect();
-
+        return userData;
     }
 
 

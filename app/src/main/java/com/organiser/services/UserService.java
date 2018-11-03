@@ -17,7 +17,7 @@ public class UserService {
     public void deleteUser(String login) throws Exception {
         userDAO.deleteUser(login);
     }
-    public void createUser(String login,String username,String password) throws Exception {
-        userDAO.createUser(login, username, password);
+    public String createUser(String login,String username,String password) throws Exception {
+        return userDAO.createUser(login, username, password);
     }
 }

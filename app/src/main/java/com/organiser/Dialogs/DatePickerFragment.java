@@ -1,12 +1,17 @@
 package com.organiser.Dialogs;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
 
+
+import com.organiser.R;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -29,6 +34,8 @@ public class DatePickerFragment extends DialogFragment
         }
     }
 
+    @RequiresApi(api = 28)
+    @SuppressLint("ResourceAsColor")
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker
@@ -38,7 +45,12 @@ public class DatePickerFragment extends DialogFragment
         int day = c.get(Calendar.DAY_OF_MONTH);
 
         // Create a new instance of DatePickerDialog and return it
-        return new DatePickerDialog(getActivity(), this, year, month, day);
+
+        //Theme_DeviceDefault_Dialog_MinWidth
+        DatePickerDialog dialog =  new DatePickerDialog(getActivity(),android.R.style.Theme_Holo_Dialog_NoActionBar_MinWidth, this, year, month, day);
+      dialog.getWindow().getDecorView().setBackgroundColor(R.color.basicOrganiserBgColor);
+      dialog.getWindow().getDecorView().setAlpha(132);
+        return dialog;
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {

@@ -3,6 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="basicOrganiserBgColor">#222222</color>
+    <color name="basicOrganiserBgColor">#222</color>
+    <color name="darkerBasicOrganiserBgColor">#171717</color>
     <color name="basicOrganisertextColor">#CCCCCC</color>
 </resources>

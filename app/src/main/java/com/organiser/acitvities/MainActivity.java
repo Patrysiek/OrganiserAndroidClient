@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.organiser.Dialogs.AddTaskDialog;
 import com.organiser.Dialogs.DatePickerFragment;
 import com.organiser.R;
-import com.organiser.configuration.ActivityConfig;
 import com.organiser.services.TaskService;
 import com.organiser.helpers.MainActivityHelper;
 import com.organiser.helpers.ObjectParser;
@@ -34,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Tas
     private ListView listViewWithCheckbox;
     private Calendar calendar;
 
-    private User user;
     private TaskService taskService;
     private MainActivityHelper helper;
     private Button addButton,deleteButton;
@@ -42,15 +40,14 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Tas
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityConfig.setFullScreen(this);
         setContentView(R.layout.activity_main);
         helper = new MainActivityHelper(this);
 
-        user = helper.initUser();
+        User user = helper.initUser();
         TextView userNameTitle = helper.initUserNameTitle();
         userNameTitle.setText(user.getName());
 
-        taskService = new TaskService("tabela");
+        taskService = new TaskService(user.getLogin()+"table");
         calendar = Calendar.getInstance();
         dateText = helper.initDateText();
 
@@ -127,12 +124,12 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Tas
         }
         new TaskLoader().execute(getDate());
     }
+
     @Override
     public void dateChangerFromPicker(Date date) {
         setDate(date,0);
         new TaskLoader().execute(getDate());
     }
-
     /////////////////////////////////GETTERS && SETTERS/////////////////////////////////////////////
     public void setDateText(String date){
         dateText.setText(date);
@@ -149,6 +146,8 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Tas
     public TaskService getTaskService() {
         return taskService;
     }
+
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     private class TaskLoader extends AsyncTask<String,Void,Void>{
