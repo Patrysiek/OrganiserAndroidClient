@@ -38,14 +38,7 @@ public class ObjectParser {
         }
         return null;
     }
-    public static Date parserStringToDate(String date){
-        try {
-            return new SimpleDateFormat("dd/MM/YYYY").parse(date);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
-    }
+
 
     public static ArrayList<Task> parserTaskList(String s){
         try {

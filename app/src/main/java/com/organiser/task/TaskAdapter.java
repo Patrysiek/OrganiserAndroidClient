@@ -1,6 +1,7 @@
 package com.organiser.task;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -14,21 +15,21 @@ import java.util.List;
 public class TaskAdapter extends BaseAdapter {
 
 
-    private List<TaskDTOforListView> taskDTOList;
+    private List<Task> taskList;
 
     private Context ctx;
 
-    public TaskAdapter(Context ctx, List<TaskDTOforListView> taskDTOList) {
+    public TaskAdapter(Context ctx, List<Task> taskList) {
         this.ctx = ctx;
-        this.taskDTOList = taskDTOList;
+        this.taskList = taskList;
     }
 
     @Override
     public int getCount() {
         int ret = 0;
-        if(taskDTOList !=null)
+        if(taskList !=null)
         {
-            ret = taskDTOList.size();
+            ret = taskList.size();
         }
         return ret;
     }
@@ -36,8 +37,8 @@ public class TaskAdapter extends BaseAdapter {
     @Override
     public Object getItem(int itemIndex) {
         Object ret = null;
-        if(taskDTOList !=null) {
-            ret = taskDTOList.get(itemIndex);
+        if(taskList !=null) {
+            ret = taskList.get(itemIndex);
         }
         return ret;
     }
@@ -70,9 +71,9 @@ public class TaskAdapter extends BaseAdapter {
             convertView.setTag(viewHolder);
         }
 
-        TaskDTOforListView listViewItemDto = taskDTOList.get(itemIndex);
+        Task listViewItemDto = taskList.get(itemIndex);
         viewHolder.getTaskCheckbox().setChecked(listViewItemDto.isChecked());
-        viewHolder.getTaskTextView().setText(listViewItemDto.getTaskText());
+        viewHolder.getTaskTextView().setText(listViewItemDto.getDescription());
 
         return convertView;
     }

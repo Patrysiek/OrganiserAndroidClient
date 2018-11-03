@@ -10,16 +10,8 @@ public class Task {
     private Date date;
     private String description;
 
+    private boolean checked = false;
 
-
-    public Task(){
-
-    }
-    public Task(int ID,String date, String description) throws ParseException {
-        this.ID = ID;
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/YYYY");
-        this.date = format.parse(date);
-    }
 
     public int getID() {
         return ID;
@@ -44,7 +36,13 @@ public class Task {
     public void setDescription(String description) {
         this.description = description;
     }
+    public boolean isChecked() {
+        return checked;
+    }
 
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
 
     @Override
     public String toString() {

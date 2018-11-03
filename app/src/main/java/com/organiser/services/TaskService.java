@@ -8,14 +8,12 @@ import java.util.ArrayList;
 public class TaskService {
     private TaskDAO taskDAO;
 
-    public TaskService(){
-    }
 
     public TaskService(String tableName){
         this.taskDAO = new TaskDAO(tableName);
     }
 
-    public ArrayList<Task> getAllTasksFromDay(String date) throws Exception {
+    public ArrayList<Task> getAllTasksFromDay(String date) {
         try {
             return taskDAO.getAllTasksFromDay(date);
         }catch (Exception e){
@@ -34,18 +32,5 @@ public class TaskService {
         taskDAO.createTaskTable();
     }
 
-
-
-    /////////////////////GETTERS && SETTERS/////////////////////////////
-    public TaskDAO getTaskDAO() {
-        return taskDAO;
-    }
-
-    public void setTaskDAO(String tableName) {
-        this.taskDAO = new TaskDAO(tableName);
-    }
-    public void setTaskDAO(TaskDAO taskDAO) {
-        this.taskDAO = taskDAO;
-    }
 
 }

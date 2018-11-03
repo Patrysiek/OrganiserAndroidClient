@@ -6,13 +6,11 @@ import android.widget.TextView;
 
 import com.organiser.R;
 import com.organiser.acitvities.MainActivity;
-import com.organiser.task.TaskDTOforListView;
 import com.organiser.task.Task;
 import com.organiser.task.TaskAdapter;
 import com.organiser.user.User;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class MainActivityHelper {
@@ -34,20 +32,12 @@ public class MainActivityHelper {
         return activity.findViewById(R.id.date_text);
     }
 
-    public ArrayList<TaskDTOforListView> initTasksForThisDayList(String date) throws  Exception {
-        ArrayList<TaskDTOforListView> tasksForThisDay = new ArrayList<>();
-        List<Task> list = activity.getTaskService().getAllTasksFromDay(date);
-        for(Task t : list) {
-            TaskDTOforListView dto = new TaskDTOforListView();
-            dto.setTaskText(t.getDescription());
-            dto.setID(t.getID());
-            dto.setChecked(false);
-            tasksForThisDay.add(dto);
-        }
-        return tasksForThisDay;
+    public ArrayList<Task> initTasksForThisDayList(String date) throws  Exception {
+
+        return activity.getTaskService().getAllTasksFromDay(date);
     }
 
-    public ListView initLayoutForTasks(ArrayList<TaskDTOforListView> arrayList){
+    public ListView initLayoutForTasks(ArrayList<Task> arrayList){
         ListView listView = activity.findViewById(R.id.listview_for_tasks);
         TaskAdapter adapter = new TaskAdapter(activity,arrayList);
         adapter.notifyDataSetChanged();
@@ -57,9 +47,6 @@ public class MainActivityHelper {
 
     public Button initAddButton() {
         return activity.findViewById(R.id.add_task);
-    }
-    public Button initEditButton(){
-        return activity.findViewById(R.id.edit_task);
     }
     public Button initDeleteButton() {
         return activity.findViewById(R.id.delete_task);

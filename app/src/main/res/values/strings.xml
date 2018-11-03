@@ -12,4 +12,6 @@
     <string name="edit_task_button">Edit Task</string>
     <string name="cancel">Cancel</string>
     <string name="description">Description</string>
+    <string name="next_day_button"> -- &gt; </string>
+    <string name="previous_day_button"> &lt; -- </string>
 </resources>

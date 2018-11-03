@@ -13,31 +13,31 @@ import android.widget.TextView;
 
 
 import com.organiser.Dialogs.AddTaskDialog;
+import com.organiser.Dialogs.DatePickerFragment;
 import com.organiser.R;
 import com.organiser.configuration.ActivityConfig;
 import com.organiser.services.TaskService;
 import com.organiser.helpers.MainActivityHelper;
 import com.organiser.helpers.ObjectParser;
-import com.organiser.task.TaskDTOforListView;
+import com.organiser.task.Task;
 
 import com.organiser.user.User;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements AddTaskDialog.TaskDialogListener{
+public class MainActivity extends AppCompatActivity implements AddTaskDialog.TaskDialogListener, DatePickerFragment.DatePickerListener{
 
     private TextView dateText;
 
-    private ArrayList<TaskDTOforListView> tasksForThisDay;
+    private ArrayList<Task> tasksForThisDay;
     private ListView listViewWithCheckbox;
     private Calendar calendar;
 
     private User user;
     private TaskService taskService;
     private MainActivityHelper helper;
-    private Button addButton,editButton,deleteButton;
+    private Button addButton,deleteButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +56,13 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Tas
 
         addButton = helper.initAddButton();
         deleteButton = helper.initDeleteButton();
-        editButton = helper.initEditButton();
+
 
         setDate(new Date(System.currentTimeMillis()),0);
         new TaskLoader().execute(getDate());
         setAddButtonListener();
         setDeleteButtonListener();
+        setDateTextListener();
     }
     ///////////////////////////////LISTENERS/////////////////////////////////////////////////////////
     private void setAddButtonListener() {
@@ -81,16 +82,17 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Tas
         }
         new TaskLoader().execute(getDate());
     }
-    private void setDeleteButtonListener() {
+    private void setDeleteButtonListener(){
         deleteButton.setOnClickListener((view)-> {
             int size = tasksForThisDay.size();
             ArrayList<Integer> IDs = new ArrayList<>();
             for(int i =0; i<size; i++){
-                TaskDTOforListView dto = tasksForThisDay.get(i);
-                if(dto.isChecked()) {
-                    IDs.add(dto.getID());
+                Task t = tasksForThisDay.get(i);
+                if(t.isChecked()) {
+                    IDs.add(t.getID());
                 }
             }
+
             try {
                 taskService.deleteTask(IDs);
             } catch (Exception e) {
@@ -102,11 +104,18 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Tas
 
     public void setListViewListener(){
         listViewWithCheckbox.setOnItemClickListener((parent, view, position, id) -> {
-            TaskDTOforListView taskDto = (TaskDTOforListView)parent.getAdapter().getItem(position);
+            Task taskDto = (Task)parent.getAdapter().getItem(position);
             CheckBox taskCheckbox = view.findViewById(R.id.list_view_task_checkbox);
 
             taskCheckbox.setChecked(!taskDto.isChecked());
             taskDto.setChecked(!taskDto.isChecked());
+        });
+    }
+
+    public void setDateTextListener(){
+        dateText.setOnClickListener((view)-> {
+            DialogFragment newFragment = new DatePickerFragment();
+            newFragment.show(getSupportFragmentManager(), "datePicker");
         });
     }
     @Override
@@ -116,6 +125,11 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Tas
         } catch (Exception e) {
             e.printStackTrace();
         }
+        new TaskLoader().execute(getDate());
+    }
+    @Override
+    public void dateChangerFromPicker(Date date) {
+        setDate(date,0);
         new TaskLoader().execute(getDate());
     }
 

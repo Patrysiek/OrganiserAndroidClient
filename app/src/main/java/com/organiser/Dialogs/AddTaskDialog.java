@@ -17,11 +17,6 @@ import com.organiser.R;
 
 public class AddTaskDialog extends DialogFragment {
 
-    public interface TaskDialogListener {
-        void onDialogPositiveClick(String dialog);
-    }
-
-
     TaskDialogListener mListener;
     @Override
     public void onAttach(Context context) {
@@ -58,4 +53,8 @@ public class AddTaskDialog extends DialogFragment {
         return builder.create();
     }
 
+
+    public interface TaskDialogListener {
+        void onDialogPositiveClick(String dialog);
+    }
 }
