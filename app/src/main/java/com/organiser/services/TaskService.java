@@ -27,8 +27,8 @@ public class TaskService {
     public void insertTask(String date,String description) throws Exception {
         taskDAO.insertTask(date,description);
     }
-    public void deleteTask(int ID) throws Exception {
-        taskDAO.deleteTask(ID);
+    public void deleteTask(ArrayList<Integer> IDs) throws Exception {
+        taskDAO.deleteTask(IDs);
     }
     public void createTaskTable() throws Exception {
         taskDAO.createTaskTable();

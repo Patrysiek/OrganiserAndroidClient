@@ -21,11 +21,19 @@ public class TaskDAO {
     }
 
 
-
-    public  void deleteTask(int ID) throws Exception {
+    public  void deleteTask(ArrayList<Integer> ID) throws Exception {
         String url = this.url+"deletetask";
-        String postData = tablename+"&ID=" + ID;
+        StringBuilder IDs = new StringBuilder();
 
+
+        for(int i=0; i<ID.size(); i++){
+            if(i>0)
+                IDs.append(",");
+
+            IDs.append(ID.get(i));
+        }
+
+        String postData = tablename+"&ID=" + IDs.toString();
 
         connection = new ConnectionHandler(url,postData);
         connection.close();

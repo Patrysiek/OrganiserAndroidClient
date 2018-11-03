@@ -8,10 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.organiser.Dialogs.AddTaskDialog;
@@ -20,13 +18,13 @@ import com.organiser.configuration.ActivityConfig;
 import com.organiser.services.TaskService;
 import com.organiser.helpers.MainActivityHelper;
 import com.organiser.helpers.ObjectParser;
-import com.organiser.task.TaskAdapter;
 import com.organiser.task.TaskDTOforListView;
 
 import com.organiser.user.User;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AddTaskDialog.TaskDialogListener{
 
@@ -86,16 +84,17 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Tas
     private void setDeleteButtonListener() {
         deleteButton.setOnClickListener((view)-> {
             int size = tasksForThisDay.size();
+            ArrayList<Integer> IDs = new ArrayList<>();
             for(int i =0; i<size; i++){
                 TaskDTOforListView dto = tasksForThisDay.get(i);
                 if(dto.isChecked()) {
-                    try {
-                        System.out.println(dto.getID());
-                        taskService.deleteTask(dto.getID());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    IDs.add(dto.getID());
                 }
+            }
+            try {
+                taskService.deleteTask(IDs);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
             new TaskLoader().execute(getDate());
         });
@@ -137,11 +136,8 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Tas
         return taskService;
     }
 
-
-
     ////////////////////////////////////////////////////////////////////////////////////////////////
     private class TaskLoader extends AsyncTask<String,Void,Void>{
-
 
         @Override
         protected Void doInBackground(String... strings) {
