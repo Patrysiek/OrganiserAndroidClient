@@ -1,6 +1,5 @@
 package com.organiser.helpers;
 
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,14 +24,14 @@ public class MainActivityHelper {
     }
 
     public User initUser() {
-        return  ObjectParser.parseUser(activity.getIntent().getStringExtra("userData"));
+        return  ObjectParser.parseUser(LoginChecker.getUser(activity));
     }
 
     public TextView initDateText() {
         return activity.findViewById(R.id.date_text);
     }
 
-    public ArrayList<Task> initTasksForThisDayList(String date) throws  Exception {
+    public ArrayList<Task> initTasksForThisDayList(String date){
 
         return activity.getTaskService().getAllTasksFromDay(date);
     }
@@ -43,12 +42,5 @@ public class MainActivityHelper {
         adapter.notifyDataSetChanged();
         listView.setAdapter(adapter);
         return listView;
-    }
-
-    public Button initAddButton() {
-        return activity.findViewById(R.id.add_task);
-    }
-    public Button initDeleteButton() {
-        return activity.findViewById(R.id.delete_task);
     }
 }

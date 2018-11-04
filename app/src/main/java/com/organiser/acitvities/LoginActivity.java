@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.organiser.R;
+import com.organiser.helpers.LoginChecker;
 import com.organiser.services.UserService;
 import com.organiser.user.UserDAO;
 
@@ -38,10 +39,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void startMainActivity(String userData) {
-        Intent intent = new Intent();
-        intent.setClass(this,MainActivity.class);
-        intent.putExtra("userData",userData);
-        startActivity(intent);
+        LoginChecker.saveUser(this,userData);
+        startActivity(new Intent(this,MainActivity.class));
     }
 
     public void register(View view){
@@ -72,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
-            if(!s.equals(null) && !s.equals("") && s.length()>0) {
+            if(s.length()>0) {
                 startMainActivity(s);
             }
             else{

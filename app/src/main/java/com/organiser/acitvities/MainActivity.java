@@ -1,20 +1,22 @@
 package com.organiser.acitvities;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.organiser.Dialogs.AddTaskDialog;
 import com.organiser.Dialogs.DatePickerFragment;
 import com.organiser.R;
+import com.organiser.helpers.LoginChecker;
 import com.organiser.services.TaskService;
 import com.organiser.helpers.MainActivityHelper;
 import com.organiser.helpers.ObjectParser;
@@ -35,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Tas
 
     private TaskService taskService;
     private MainActivityHelper helper;
-    private Button addButton,deleteButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,23 +52,11 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Tas
         calendar = Calendar.getInstance();
         dateText = helper.initDateText();
 
-        addButton = helper.initAddButton();
-        deleteButton = helper.initDeleteButton();
-
 
         setDate(new Date(System.currentTimeMillis()),0);
         new TaskLoader().execute(getDate());
-        setAddButtonListener();
-        setDeleteButtonListener();
-        setDateTextListener();
     }
     ///////////////////////////////LISTENERS/////////////////////////////////////////////////////////
-    private void setAddButtonListener() {
-        addButton.setOnClickListener((view) ->{
-            DialogFragment newFragment = new AddTaskDialog();
-            newFragment.show(getSupportFragmentManager(), "addTaskDialog");
-        });
-    }
     public void switchDay(View view) {
         switch (view.getId()) {
             case R.id.next_date_button:
@@ -79,25 +68,28 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Tas
         }
         new TaskLoader().execute(getDate());
     }
-    private void setDeleteButtonListener(){
-        deleteButton.setOnClickListener((view)-> {
-            int size = tasksForThisDay.size();
-            ArrayList<Integer> IDs = new ArrayList<>();
-            for(int i =0; i<size; i++){
-                Task t = tasksForThisDay.get(i);
-                if(t.isChecked()) {
-                    IDs.add(t.getID());
-                }
-            }
-
-            try {
-                taskService.deleteTask(IDs);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            new TaskLoader().execute(getDate());
-        });
+    public void addNewTask(View v){
+        DialogFragment newFragment = new AddTaskDialog();
+        newFragment.show(getSupportFragmentManager(), "addTaskDialog");
     }
+
+    public void deleteCheckedTask(View view){
+        int size = tasksForThisDay.size();
+        ArrayList<Integer> IDs = new ArrayList<>();
+        for(int i =0; i<size; i++){
+            Task t = tasksForThisDay.get(i);
+            if(t.isChecked()) {
+                IDs.add(t.getID());
+            }
+        }
+        try {
+            taskService.deleteTask(IDs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        new TaskLoader().execute(getDate());
+    }
+
 
     public void setListViewListener(){
         listViewWithCheckbox.setOnItemClickListener((parent, view, position, id) -> {
@@ -109,12 +101,11 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Tas
         });
     }
 
-    public void setDateTextListener(){
-        dateText.setOnClickListener((view)-> {
-            DialogFragment newFragment = new DatePickerFragment();
-            newFragment.show(getSupportFragmentManager(), "datePicker");
-        });
+    public void DateTextListener(View view){
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
     }
+
     @Override
     public void onDialogPositiveClick(String  description) {
         try {
@@ -129,6 +120,12 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Tas
     public void dateChangerFromPicker(Date date) {
         setDate(date,0);
         new TaskLoader().execute(getDate());
+    }
+
+    public void logout(View v){
+        LoginChecker.clearPrefs(this);
+        Toast.makeText(this,"Logout successfully !",Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this,LoginActivity.class));
     }
     /////////////////////////////////GETTERS && SETTERS/////////////////////////////////////////////
     public void setDateText(String date){

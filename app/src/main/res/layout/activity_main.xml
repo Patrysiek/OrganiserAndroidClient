@@ -48,6 +48,7 @@
             android:textAlignment="center"
             android:textColor="@color/basicOrganisertextColor"
             android:textSize="20sp"
+            android:onClick="DateTextListener"
             app:layout_constraintBaseline_toBaselineOf="@+id/previous_date_button"
             app:layout_constraintEnd_toStartOf="@+id/next_date_button"
             app:layout_constraintStart_toEndOf="@+id/previous_date_button"
@@ -98,7 +99,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:orientation="horizontal"
-        android:weightSum="2"
+        android:weightSum="3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -113,7 +114,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/add_task_button" />
+            android:text="@string/add_task_button"
+            android:onClick="addNewTask"
+            />
 
 
 
@@ -124,7 +127,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/delete_task_button" />
+            android:text="@string/delete_task_button"
+            android:onClick="deleteCheckedTask"
+            />
+        <Button
+            android:id="@+id/logout_button"
+            style="?android:attr/buttonBarButtonStyle"
+            android:textColor="@color/basicOrganisertextColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="logout"
+            android:text="@string/logout_button" />
     </LinearLayout>
 
     <ListView

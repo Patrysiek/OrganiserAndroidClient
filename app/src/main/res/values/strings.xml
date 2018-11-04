@@ -16,4 +16,6 @@
     <string name="name_name">Name</string>
     <string name="next_day_button"> -- &gt; </string>
     <string name="previous_day_button"> &lt; -- </string>
+    <string name="user_data"></string>
+    <string name="logout_button">Logout</string>
 </resources>
