@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
@@ -45,7 +44,6 @@ public class DatePickerFragment extends DialogFragment
         int day = c.get(Calendar.DAY_OF_MONTH);
 
         // Create a new instance of DatePickerDialog and return it
-
         //Theme_DeviceDefault_Dialog_MinWidth
         DatePickerDialog dialog =  new DatePickerDialog(getActivity(),android.R.style.Theme_Holo_Dialog_NoActionBar_MinWidth, this, year, month, day);
       dialog.getWindow().getDecorView().setBackgroundColor(R.color.basicOrganiserBgColor);

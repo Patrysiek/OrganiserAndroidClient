@@ -1,22 +1,19 @@
 package com.organiser.acitvities;
 
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.organiser.Dialogs.AddTaskDialog;
 import com.organiser.Dialogs.DatePickerFragment;
 import com.organiser.R;
-import com.organiser.helpers.LoginChecker;
+import com.organiser.services.TaskListManager;
 import com.organiser.services.TaskService;
 import com.organiser.helpers.MainActivityHelper;
 import com.organiser.helpers.ObjectParser;
@@ -31,8 +28,8 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Tas
 
     private TextView dateText;
 
-    private ArrayList<Task> tasksForThisDay;
-    private ListView listViewWithCheckbox;
+    private TaskListManager taskListManager;
+    private ListView listViewForDoneTasks,listViewForTaskToDo,listViewForTasksInProgress;
     private Calendar calendar;
 
     private TaskService taskService;
@@ -49,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Tas
         userNameTitle.setText(user.getName());
 
         taskService = new TaskService(user.getLogin()+"table");
+
+
+
         calendar = Calendar.getInstance();
         dateText = helper.initDateText();
 
@@ -58,117 +58,92 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialog.Tas
     }
     ///////////////////////////////LISTENERS/////////////////////////////////////////////////////////
     public void switchDay(View view) {
-        switch (view.getId()) {
-            case R.id.next_date_button:
-                setDate(calendar.getTime(), 1);
-                break;
-            case R.id.previous_date_button:
-                setDate(calendar.getTime(), -1);
-                break;
-        }
+        helper.switchDay(view.getId());
         new TaskLoader().execute(getDate());
     }
-    public void addNewTask(View v){
+    public void addNewTask(View view){
         DialogFragment newFragment = new AddTaskDialog();
         newFragment.show(getSupportFragmentManager(), "addTaskDialog");
     }
-
     public void deleteCheckedTask(View view){
-        int size = tasksForThisDay.size();
-        ArrayList<Integer> IDs = new ArrayList<>();
-        for(int i =0; i<size; i++){
-            Task t = tasksForThisDay.get(i);
-            if(t.isChecked()) {
-                IDs.add(t.getID());
-            }
-        }
-        try {
-            taskService.deleteTask(IDs);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        helper.deleteCheckedTask();
         new TaskLoader().execute(getDate());
     }
-
-
     public void setListViewListener(){
-        listViewWithCheckbox.setOnItemClickListener((parent, view, position, id) -> {
-            Task taskDto = (Task)parent.getAdapter().getItem(position);
-            CheckBox taskCheckbox = view.findViewById(R.id.list_view_task_checkbox);
-
-            taskCheckbox.setChecked(!taskDto.isChecked());
-            taskDto.setChecked(!taskDto.isChecked());
-        });
+        helper.setListViewListener();
     }
-
     public void DateTextListener(View view){
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
-
     @Override
     public void onDialogPositiveClick(String  description) {
-        try {
-            taskService.insertTask(getDate(),description);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        helper.onDialogPositiveClick(description);
         new TaskLoader().execute(getDate());
     }
-
     @Override
     public void dateChangerFromPicker(Date date) {
         setDate(date,0);
         new TaskLoader().execute(getDate());
     }
-
     public void logout(View v){
-        LoginChecker.clearPrefs(this);
-        Toast.makeText(this,"Logout successfully !",Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(this,LoginActivity.class));
+    helper.logout();
     }
     /////////////////////////////////GETTERS && SETTERS/////////////////////////////////////////////
-    public void setDateText(String date){
-        dateText.setText(date);
-    }
-    private String getDate(){
+    public String getDate(){
         return dateText.getText().toString();
     }
-
     public void setDate(Date date, int day) {
         calendar.setTime(date);
         calendar.add(Calendar.DAY_OF_YEAR, day);
         setDateText( ObjectParser.parserDateToString(calendar.getTime()));
+    }
+    public void setDateText(String date){
+        dateText.setText(date);
     }
     public TaskService getTaskService() {
         return taskService;
     }
 
 
+    public void setListViewForDoneTasks(ListView listViewForDoneTasks) {
+        this.listViewForDoneTasks = listViewForDoneTasks;
+    }
+
+    public ListView getListViewForDoneTasks() {
+        return listViewForDoneTasks;
+    }
+
+    public Calendar getCalendar() {
+        return calendar;
+    }
+
+    public TaskListManager getTaskListManager() {
+        return taskListManager;
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    private class TaskLoader extends AsyncTask<String,Void,Void>{
-
+    public class TaskLoader extends AsyncTask<String,Void,Void>{
         @Override
         protected Void doInBackground(String... strings) {
             try {
-                tasksForThisDay = helper.initTasksForThisDayList(strings[0]);
+                taskListManager = new TaskListManager(taskService.getAllTasksFromDay(getDate()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;
         }
-
         @Override
         protected void onPostExecute(Void value) {
             try {
-                listViewWithCheckbox = helper.initLayoutForTasks(tasksForThisDay);
+                helper.initLayoutForTasks(R.id.listview_for_tasks_to_do,taskListManager.getToDoTasksList());
+                helper.initLayoutForTasks(R.id.listview_for_task_done_task,taskListManager.getInProgressTaskList());
+                helper.initLayoutForTasks(R.id.listview_for_task_in_progress,taskListManager.getDoneTasksList());
                 setListViewListener();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 }

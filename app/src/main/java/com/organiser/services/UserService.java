@@ -9,8 +9,6 @@ public class UserService {
     public UserService(UserDAO userDAO){
         this.userDAO = userDAO;
     }
-
-
     public String login(String login,String password ) throws Exception {
         return userDAO.login(login,password);
     }

@@ -16,7 +16,9 @@ import android.widget.EditText;
 import com.organiser.R;
 
 public class AddTaskDialog extends DialogFragment {
-
+    public interface TaskDialogListener {
+        void onDialogPositiveClick(String dialog);
+    }
     TaskDialogListener mListener;
     @Override
     public void onAttach(Context context) {
@@ -25,7 +27,6 @@ public class AddTaskDialog extends DialogFragment {
         try {
             // Instantiate the NoticeDialogListener so we can send events to the host
             mListener = (TaskDialogListener) context;
-
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(context.toString()
@@ -41,7 +42,6 @@ public class AddTaskDialog extends DialogFragment {
         final EditText description = view.findViewById(R.id.description);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-
         builder.setView(view)
                 .setPositiveButton(R.string.add_task_button,(DialogInterface dialog, int id) ->
                     mListener.onDialogPositiveClick(description.getText().toString())
@@ -54,7 +54,5 @@ public class AddTaskDialog extends DialogFragment {
     }
 
 
-    public interface TaskDialogListener {
-        void onDialogPositiveClick(String dialog);
-    }
+
 }

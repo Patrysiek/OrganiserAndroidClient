@@ -68,7 +68,6 @@ public class LoginActivity extends AppCompatActivity {
             return null;
         }
 
-
         @Override
         protected void onPostExecute(String s) {
             if(s.length()>0) {
@@ -79,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                 toast.show();
             }
         }
-    }
+                }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-}
+                }

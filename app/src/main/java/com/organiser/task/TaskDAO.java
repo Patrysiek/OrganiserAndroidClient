@@ -42,7 +42,7 @@ public class TaskDAO {
 
     public  void insertTask(String date,String description) throws Exception {
         String url = this.url+"inserttask";
-        String postData = tablename+"&date=" + date+"&description="+description;
+        String postData = tablename+"&date=" + date+"&description="+description+"&status=ToDo";
 
         connection = new ConnectionHandler(url,postData);
         connection.close();

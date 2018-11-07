@@ -7,6 +7,7 @@ public class Task {
     private int ID;
     private Date date;
     private String description;
+    private String status;
 
     private boolean checked = false;
 
@@ -40,6 +41,14 @@ public class Task {
 
     public void setChecked(boolean checked) {
         this.checked = checked;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override
