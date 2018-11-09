@@ -1,5 +1,7 @@
 package com.organiser.services;
 
+
+
 import com.organiser.task.Task;
 import com.organiser.task.TaskDAO;
 
@@ -22,8 +24,8 @@ public class TaskService {
         return null;
     }
 
-    public void insertTask(String date,String description) throws Exception {
-        taskDAO.insertTask(date,description);
+    public void insertTask(String date,String description,String choose) throws Exception {
+        taskDAO.insertTask(date,description,choose);
     }
     public void deleteTask(ArrayList<Integer> IDs) throws Exception {
         taskDAO.deleteTask(IDs);
@@ -31,6 +33,4 @@ public class TaskService {
     public void createTaskTable() throws Exception {
         taskDAO.createTaskTable();
     }
-
-
 }

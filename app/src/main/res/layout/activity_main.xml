@@ -7,8 +7,6 @@
     android:layout_gravity="center_vertical|fill_horizontal"
     android:background="@color/basicOrganiserBgColor"
     tools:context=".acitvities.MainActivity">
-
-
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
@@ -23,7 +21,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_name_title">
-
         <Button
             android:id="@+id/previous_date_button"
             android:layout_width="wrap_content"

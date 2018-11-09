@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ObjectParser {
 
@@ -32,11 +33,11 @@ public class ObjectParser {
 
     public static String parserDateToString(Date date){
         try {
-            return new SimpleDateFormat("dd/MM/YYYY").format(date);
+            return new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(date);
         }catch (Exception e){
             e.printStackTrace();
         }
-        return null;
+        return "blabla";
     }
 
 

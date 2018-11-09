@@ -1,7 +1,6 @@
 package com.organiser.task;
 
 
-
 import com.organiser.connection.ConnectionHandler;
 import com.organiser.helpers.ObjectParser;
 
@@ -10,13 +9,14 @@ import java.util.ArrayList;
 
 public class TaskDAO {
 
-
     private ConnectionHandler connection;
     private String url;
     private String tablename;
 
     public TaskDAO(String tablename){
-        url ="http://10.0.2.2:8080/OrganiserWebService/";
+
+
+        url ="http://192.168.0.104:8080/OrganiserWebService/";
         this.tablename = "tablename="+tablename;
     }
 
@@ -40,9 +40,9 @@ public class TaskDAO {
         connection.disconnect();
     }
 
-    public  void insertTask(String date,String description) throws Exception {
+    public  void insertTask(String date,String description,String choose) throws Exception {
         String url = this.url+"inserttask";
-        String postData = tablename+"&date=" + date+"&description="+description+"&status=ToDo";
+        String postData = tablename+"&date=" + date+"&description="+description+"&status="+choose;
 
         connection = new ConnectionHandler(url,postData);
         connection.close();

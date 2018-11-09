@@ -25,10 +25,10 @@ public class TaskListManager {
                     toDoTasksList.add(t);
                     break;
                 case "inProgress":
-                    toDoTasksList.add(t);
+                    inProgressTaskList.add(t);
                     break;
                 case "done":
-                    toDoTasksList.add(t);
+                    doneTasksList.add(t);
                     break;
             }
         }
@@ -44,5 +44,9 @@ public class TaskListManager {
 
     public ArrayList<Task> getToDoTasksList() {
         return toDoTasksList;
+    }
+
+    public ArrayList<Task> getAllTasksList() {
+        return allTasksList;
     }
 }

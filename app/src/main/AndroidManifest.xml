@@ -32,7 +32,7 @@
             android:name=".acitvities.MainActivity"
             android:label="Organiser"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".acitvities.RegisterActivity"></activity>
+        <activity android:name=".acitvities.RegisterActivity" />
     </application>
 
 </manifest>
