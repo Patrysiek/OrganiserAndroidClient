@@ -26,6 +26,4 @@ public class WelcomeActivity extends AppCompatActivity {
         else
             new Handler().postDelayed(() -> startActivity(new Intent(this, MainActivity.class)),3000);
         }
-
-
 }

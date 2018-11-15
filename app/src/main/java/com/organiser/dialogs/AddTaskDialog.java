@@ -1,25 +1,21 @@
-package com.organiser.Dialogs;
+package com.organiser.dialogs;
 
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 
@@ -30,8 +26,8 @@ import com.organiser.R;
 
 public class AddTaskDialog extends DialogFragment {
     private String[] items = {"ToDo","inProgress","done" };
-    private String choose;
-    private TaskDialogListener mListener;
+    private String choose = items[0];
+    private AddTaskDialogCallback mListener;
 
     @Override
     public void onAttach(Context context) {
@@ -39,7 +35,7 @@ public class AddTaskDialog extends DialogFragment {
         // Verify that the host activity implements the callback interface
         try {
             // Instantiate the NoticeDialogListener so we can send events to the host
-            mListener = (TaskDialogListener) context;
+            mListener = (AddTaskDialogCallback) context;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(context.toString()
@@ -56,14 +52,16 @@ public class AddTaskDialog extends DialogFragment {
         final View view = inflater.inflate(R.layout.add_task_dialog, null);
         final EditText description = view.findViewById(R.id.description);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.AlertDialogCustom);
+
         TextView tv = new TextView(getContext());
         tv.setGravity(Gravity.CENTER);
         tv.setText("ADD TASK");
         tv.setTextSize(25);
+
         builder.setView(view)
                 .setCustomTitle(tv)
                 .setPositiveButton(R.string.add_task_button,(DialogInterface dialog, int id) ->
-                        mListener.onDialogPositiveClick(description.getText().toString(),choose)
+                        mListener.onAddTaskDialogPositiveClick(description.getText().toString(),choose)
                 )
                 .setNegativeButton(R.string.cancel, (DialogInterface dialog, int id) ->
                         AddTaskDialog.this.getDialog().cancel()
@@ -76,8 +74,4 @@ public class AddTaskDialog extends DialogFragment {
         this.choose = items[which];
     }
 
-
-    public interface TaskDialogListener {
-        void onDialogPositiveClick(String dialog,String choose);
-    }
 }

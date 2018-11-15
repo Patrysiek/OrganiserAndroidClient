@@ -16,7 +16,7 @@ public class TaskDAO {
     public TaskDAO(String tablename){
 
 
-        url ="http://192.168.0.104:8080/OrganiserWebService/";
+        url ="http://10.0.2.2:8080/OrganiserWebService/";
         this.tablename = "tablename="+tablename;
     }
 
@@ -67,8 +67,6 @@ public class TaskDAO {
         connection.close();
         connection.disconnect();
     }
-
-
     public String getTablename() {
         return tablename;
     }

@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 public class ListViewTaskHolder extends RecyclerView.ViewHolder{
     private CheckBox taskCheckbox;
-
     private TextView taskTextView;
 
     public ListViewTaskHolder(View taskView) {

@@ -2,139 +2,104 @@ package com.organiser.acitvities;
 
 
 
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
-import com.organiser.Dialogs.AddTaskDialog;
+import com.organiser.asyncTasks.TaskAdder;
+import com.organiser.asyncTasks.TaskDeleter;
+import com.organiser.asyncTasks.ILoadTasksCallback;
+import com.organiser.dialogs.AddTaskDialog;
+import com.organiser.dialogs.AddTaskDialogCallback;
 import com.organiser.R;
-import com.organiser.services.TaskListManager;
-import com.organiser.services.TaskService;
-import com.organiser.helpers.MainActivityHelper;
+import com.organiser.asyncTasks.TaskLoader;
+import com.organiser.asyncTasks.ITaskLoaderCallback;
+import com.organiser.helpers.DateManager;
+import com.organiser.helpers.IsetDateText;
+import com.organiser.helpers.LoginChecker;
 import com.organiser.helpers.ObjectParser;
+import com.organiser.taskList.TaskListLayoutManager;
+import com.organiser.taskList.TaskListManager;
+import com.organiser.services.TaskService;
 
 import com.organiser.user.User;
 import java.util.Calendar;
-import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements AddTaskDialog.TaskDialogListener{
+public class MainActivity extends AppCompatActivity implements AddTaskDialogCallback,ITaskLoaderCallback,IsetDateText,ILoadTasksCallback {
 
     private TextView dateText;
-
-    private TaskListManager taskListManager;
-    private ListView listViewForDoneTasks,listViewForTaskToDo,listViewForTasksInProgress;
     private Calendar calendar;
-
     private TaskService taskService;
-    private MainActivityHelper helper;
+    private TaskListManager taskListManager;
+    private DateManager dateManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        helper = new MainActivityHelper(this);
 
-        User user = helper.initUser();
-        TextView userNameTitle = helper.initUserNameTitle();
-        userNameTitle.setText(user.getName());
+        User user = ObjectParser.parseUser(LoginChecker.getUser(this));
 
-        taskService = new TaskService(user.getLogin()+"table");
+        TextView userNameTitle = findViewById(R.id.user_name_title);
+        if(user!=null) {
+            userNameTitle.setText(user.getName());
+            taskService = new TaskService(user.getLogin() + "table");
+        }
+        else {
+            userNameTitle.setText(R.string.error);
+            taskService = new TaskService("");
+        }
 
         calendar = Calendar.getInstance();
-        dateText = helper.initDateText();
-
-        setDate(new Date(System.currentTimeMillis()),0);
-        loadTasks();
+        dateText = findViewById(R.id.date_text);
+        dateManager = new DateManager(this);
+        dateManager.initDate(calendar,0);
     }
-    ///////////////////////////////LISTENERS/////////////////////////////////////////////////////////
-    public void switchDay(View view) {
-        helper.switchDay(view.getId());
-        loadTasks();
+    ///////////////////////////////BUTTONS LISTENERS////////////////////////////////////////////////
+    public void switchDayButtonListener(View view) {
+        dateManager.switchDay(view.getId(),calendar);
     }
-    public void addNewTask(View view){
+    public void addNewTaskButtonListener(View view){
         DialogFragment newFragment = new AddTaskDialog();
         newFragment.show(getSupportFragmentManager(), "addTaskDialog");
     }
-    public void deleteCheckedTask(View view){
-        helper.deleteCheckedTask();
-        loadTasks();
-    }
-    public void setListViewListener(){
-        if(taskListManager.getDoneTasksList().size()>0)
-        helper.setListViewListener(listViewForDoneTasks);
-        if(taskListManager.getToDoTasksList().size()>0)
-        helper.setListViewListener(listViewForTaskToDo);
-        if(taskListManager.getInProgressTaskList().size()>0)
-        helper.setListViewListener(listViewForTasksInProgress);
+    public void deleteCheckedTaskButtonListener(View view){
+        new TaskDeleter(taskService,taskListManager,this).execute();
     }
     public void DateTextListener(View view){
-        helper.onDateTextClick();
+        dateManager.onDateTextClick(calendar,this);
     }
-
-    public void loadTasks(){
-        new TaskLoader().execute(getDate());
+    public void logoutButtonListener(View v){
+        LoginChecker.clearPrefs(this);
+        Toast.makeText(this,"Logout successfully !",Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this,LoginActivity.class));
+    }
+    ///////////////////////////////INTERFACES LISTENERS/////////////////////////////////////////////
+    @Override
+    public void initTaskListManager(TaskListManager taskListManager) {
+        this.taskListManager = taskListManager;
+        new TaskListLayoutManager(taskListManager,findViewById(android.R.id.content)).setTaskListLayout();
     }
     @Override
-    public void onDialogPositiveClick(String  description,String choose) {
-        helper.onDialogPositiveClick(description,choose);
-        loadTasks();
+    public void onAddTaskDialogPositiveClick(String  description, String choose) {
+        new TaskAdder(this,taskService).execute(getDate(),description,choose);
     }
-
-    public void logout(View v){
-    helper.logout();
+    @Override
+    public void loadTasksAfterChange() {
+        new TaskLoader(taskService,this).execute(getDate());
+    }
+    @Override
+    public void setDateText(String date){
+        dateText.setText(date);
     }
     /////////////////////////////////GETTERS && SETTERS/////////////////////////////////////////////
     public String getDate(){
         return dateText.getText().toString();
     }
-    public void setDate(Date date, int day) {
-        calendar.setTime(date);
-        calendar.add(Calendar.DAY_OF_YEAR, day);
-        setDateText( ObjectParser.parserDateToString(calendar.getTime()));
-        setDateText( ObjectParser.parserDateToString(calendar.getTime()));
-    }
-    public void setDateText(String date){
-        dateText.setText(date);
-    }
-    public TaskService getTaskService() {
-        return taskService;
-    }
-    public Calendar getCalendar() {
-        return calendar;
-    }
-    public TaskListManager getTaskListManager() {
-        return taskListManager;
-    }
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    public class TaskLoader extends AsyncTask<String,Void,Void>{
-        @Override
-        protected Void doInBackground(String... strings) {
-            try {
-                taskListManager = new TaskListManager(taskService.getAllTasksFromDay(strings[0]));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-        @Override
-        protected void onPostExecute(Void value) {
-            try {
-                if(taskListManager.getToDoTasksList()!=null)
-                listViewForTaskToDo = helper.initLayoutForTasks(R.id.listview_for_tasks_to_do,taskListManager.getToDoTasksList());
-                if(taskListManager.getInProgressTaskList()!=null)
-                listViewForTasksInProgress = helper.initLayoutForTasks(R.id.listview_for_task_done_task,taskListManager.getInProgressTaskList());
-                if(taskListManager.getDoneTasksList()!=null)
-                listViewForDoneTasks = helper.initLayoutForTasks(R.id.listview_for_task_in_progress,taskListManager.getDoneTasksList());
-                setListViewListener();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-///////////////////////////////////////////////////////////////////////////////////////////////////
 }

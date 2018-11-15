@@ -10,7 +10,7 @@ public class UserDAO {
     private String url;
 
     public UserDAO(){
-        url ="http://192.168.0.104:8080/OrganiserWebService/";
+        url ="http://10.0.2.2:8080/OrganiserWebService/";
     }
 
 
@@ -33,7 +33,6 @@ public class UserDAO {
         connection.disconnect();
         return userData;
     }
-
 
     public  String login(String login, String password) throws Exception {
 

@@ -1,4 +1,4 @@
-package com.organiser.task;
+package com.organiser.taskList;
 
 import android.content.Context;
 import android.view.View;
@@ -8,6 +8,8 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.organiser.R;
+import com.organiser.task.ListViewTaskHolder;
+import com.organiser.task.Task;
 
 import java.util.List;
 
