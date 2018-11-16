@@ -1,5 +1,6 @@
 package com.organiser.taskList;
 
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.ListView;
 
@@ -13,10 +14,11 @@ public class TaskListLayoutManager {
 
     private TaskListManager taskListManager;
     private WeakReference<View> viewWeakReference;
-
-    public TaskListLayoutManager(TaskListManager taskListManager, View view){
+    private FragmentManager manager;
+    public TaskListLayoutManager(TaskListManager taskListManager, View view, FragmentManager manager){
         this.taskListManager = taskListManager;
         this.viewWeakReference = new WeakReference<>(view);
+        this.manager = manager;
     }
 
     public void setTaskListLayout(){
@@ -24,15 +26,15 @@ public class TaskListLayoutManager {
         try {
             if(taskListManager.getToDoTasksList()!=null){
                 listView = initLayoutForTasks(R.id.listview_for_tasks_to_do,taskListManager.getToDoTasksList());
-                new TaskListListener().setListViewListener(listView);
+                new TaskListListener().setListViewListener(listView,manager);
             }
             if(taskListManager.getInProgressTaskList()!=null){
-                listView = initLayoutForTasks(R.id.listview_for_task_done_task,taskListManager.getInProgressTaskList());
-                new TaskListListener().setListViewListener(listView);
+                listView = initLayoutForTasks(R.id.listview_for_done_task,taskListManager.getInProgressTaskList());
+                new TaskListListener().setListViewListener(listView,manager);
             }
             if(taskListManager.getDoneTasksList()!=null){
                 listView = initLayoutForTasks(R.id.listview_for_task_in_progress,taskListManager.getDoneTasksList());
-                new TaskListListener().setListViewListener(listView);
+                new TaskListListener().setListViewListener(listView,manager);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,4 +49,5 @@ public class TaskListLayoutManager {
         listView.setAdapter(adapter);
         return listView;
     }
+
 }

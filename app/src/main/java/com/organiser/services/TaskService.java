@@ -33,4 +33,8 @@ public class TaskService {
     public void createTaskTable() throws Exception {
         taskDAO.createTaskTable();
     }
+
+    public void updateTask(String ID, String status)throws Exception {
+        taskDAO.updateTask(ID,status);
+    }
 }

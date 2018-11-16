@@ -176,7 +176,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
             <ListView
-                android:id="@+id/listview_for_task_in_progress"
+                android:id="@+id/listview_for_done_task"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="8dp"
@@ -191,7 +191,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
             <ListView
-                android:id="@+id/listview_for_task_done_task"
+                android:id="@+id/listview_for_task_in_progress"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="8dp"

@@ -14,11 +14,13 @@ import android.widget.Toast;
 import com.organiser.asyncTasks.TaskAdder;
 import com.organiser.asyncTasks.TaskDeleter;
 import com.organiser.asyncTasks.ILoadTasksCallback;
+import com.organiser.asyncTasks.TaskStatusUpdater;
 import com.organiser.dialogs.AddTaskDialog;
 import com.organiser.dialogs.AddTaskDialogCallback;
 import com.organiser.R;
 import com.organiser.asyncTasks.TaskLoader;
 import com.organiser.asyncTasks.ITaskLoaderCallback;
+import com.organiser.dialogs.TaskStatusDialogCallback;
 import com.organiser.helpers.DateManager;
 import com.organiser.helpers.IsetDateText;
 import com.organiser.helpers.LoginChecker;
@@ -30,7 +32,7 @@ import com.organiser.services.TaskService;
 import com.organiser.user.User;
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements AddTaskDialogCallback,ITaskLoaderCallback,IsetDateText,ILoadTasksCallback {
+public class MainActivity extends AppCompatActivity implements AddTaskDialogCallback,ITaskLoaderCallback,IsetDateText,ILoadTasksCallback,TaskStatusDialogCallback {
 
     private TextView dateText;
     private Calendar calendar;
@@ -83,23 +85,22 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialogCall
     @Override
     public void initTaskListManager(TaskListManager taskListManager) {
         this.taskListManager = taskListManager;
-        new TaskListLayoutManager(taskListManager,findViewById(android.R.id.content)).setTaskListLayout();
+        new TaskListLayoutManager(taskListManager,findViewById(android.R.id.content),getSupportFragmentManager()).setTaskListLayout();
     }
     @Override
     public void onAddTaskDialogPositiveClick(String  description, String choose) {
-        new TaskAdder(this,taskService).execute(getDate(),description,choose);
+        new TaskAdder(this,taskService).execute(dateText.getText().toString(),description,choose);
     }
     @Override
     public void loadTasksAfterChange() {
-        new TaskLoader(taskService,this).execute(getDate());
+        new TaskLoader(taskService,this).execute(dateText.getText().toString());
     }
     @Override
     public void setDateText(String date){
         dateText.setText(date);
     }
-    /////////////////////////////////GETTERS && SETTERS/////////////////////////////////////////////
-    public String getDate(){
-        return dateText.getText().toString();
+    @Override
+    public void statusTaskDialogClick(String status,int ID) {
+        new TaskStatusUpdater(taskService,this).execute(String.valueOf(ID),status);
     }
-    ////////////////////////////////////////////////////////////////////////////////////////////////
 }

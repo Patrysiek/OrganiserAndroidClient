@@ -67,8 +67,16 @@ public class TaskDAO {
         connection.close();
         connection.disconnect();
     }
+
+    public void updateTask(String ID, String status) throws Exception{
+        String url = this.url+"updatetask";
+        String postData = tablename+"&ID=" +ID+"&status="+status;
+        connection = new ConnectionHandler(url,postData);
+        connection.close();
+        connection.disconnect();
+    }
+
     public String getTablename() {
         return tablename;
     }
-
 }
