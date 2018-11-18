@@ -1,5 +1,6 @@
 package com.organiser.helpers;
 
+import com.organiser.sharedTable.SharedTable;
 import com.organiser.task.Task;
 import com.organiser.user.User;
 
@@ -22,15 +23,6 @@ public class ObjectParser {
         return null;
     }
 
-    public static Task parserTask(String data){
-        try {
-            return new ObjectMapper().readValue(data,Task.class);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public static String parserDateToString(Date date){
         try {
             return new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(date);
@@ -44,8 +36,17 @@ public class ObjectParser {
     public static ArrayList<Task> parserTaskList(String s){
         try {
             ObjectMapper mapper = new ObjectMapper();
-            ArrayList<Task> myObjects = mapper.readValue(s, mapper.getTypeFactory().constructCollectionType(List.class, Task.class));
-            return myObjects;
+            return mapper.readValue(s, mapper.getTypeFactory().constructCollectionType(List.class, Task.class));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ArrayList<SharedTable> parserSharedTable(String s){
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(s, mapper.getTypeFactory().constructCollectionType(List.class, SharedTable.class));
         }catch (Exception e){
             e.printStackTrace();
         }

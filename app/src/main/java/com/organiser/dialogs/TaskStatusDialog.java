@@ -11,8 +11,10 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 
 import com.organiser.R;
+
 
 @SuppressLint("ValidFragment")
 public class TaskStatusDialog extends DialogFragment {
@@ -42,18 +44,17 @@ public class TaskStatusDialog extends DialogFragment {
         @NonNull
         public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
             LayoutInflater inflater = getActivity().getLayoutInflater();
-            final View view = inflater.inflate(android.R.layout.simple_list_item_1, null);
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.AlertDialogCustom);
+            final View view = inflater.inflate(R.layout.choice_adapter_layout, null);
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.ChangeStatusDialog);
+            ArrayAdapter<String> itemAdapter = new ArrayAdapter<>(view.getContext(),R.layout.choice_adapter_layout,R.id.status_item,items);
 
-            builder.setView(view)
-                    .setSingleChoiceItems(items, 0, (DialogInterface dialog, int which) ->{
+            builder.setSingleChoiceItems(itemAdapter, -1, (DialogInterface dialog, int which) ->{
                         setChoose(which);
                         getDialog().dismiss();
                             });
             return builder.create();
         }
         private void setChoose(int which) {
-            this.choose = items[which];
-            mListener.statusTaskDialogClick(choose,ID);
+            mListener.statusTaskDialogClick(items[which],ID);
         }
     }

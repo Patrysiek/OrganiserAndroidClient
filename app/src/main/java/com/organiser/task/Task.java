@@ -3,7 +3,7 @@ package com.organiser.task;
 import java.util.Date;
 
 
-public class Task {
+public class Task implements CheckableAndDescriptionable{
     private int ID;
     private Date date;
     private String description;

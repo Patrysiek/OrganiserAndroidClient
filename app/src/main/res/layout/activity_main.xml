@@ -7,20 +7,19 @@
     android:layout_gravity="center_vertical|fill_horizontal"
     android:background="@color/basicOrganiserBgColor"
     tools:context=".acitvities.MainActivity">
+
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_margin="8dp"
         android:layout_marginTop="8dp"
         android:orientation="horizontal"
         android:weightSum="5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_name_title">
+        app:layout_constraintTop_toTopOf="parent">
+
         <Button
             android:id="@+id/previous_date_button"
             android:layout_width="wrap_content"
@@ -30,7 +29,7 @@
             android:onClick="switchDayButtonListener"
             android:padding="0sp"
             android:text="@string/previous_day_button"
-            android:textColor="@color/basicOrganisertextColor"
+            android:textColor="@color/basicOrganiserTextColor"
             android:textSize="40sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/user_name_title" />
@@ -43,7 +42,7 @@
             android:onClick="DateTextListener"
             android:text="@string/default_text"
             android:textAlignment="center"
-            android:textColor="@color/basicOrganisertextColor"
+            android:textColor="@color/basicOrganiserTextColor"
             android:textSize="20sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/previous_date_button"
             app:layout_constraintEnd_toStartOf="@+id/next_date_button"
@@ -61,45 +60,22 @@
             android:onClick="switchDayButtonListener"
             android:padding="0dp"
             android:text="@string/next_day_button"
-            android:textColor="@color/basicOrganisertextColor"
+            android:textColor="@color/basicOrganiserTextColor"
             android:textSize="40sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/date_text"
             app:layout_constraintEnd_toEndOf="parent" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/user_name_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:text="@string/default_text"
-        android:textAllCaps="false"
-        android:textColor="@color/basicOrganisertextColor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:id="@+id/buttons_panel"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_margin="8dp"
         android:orientation="horizontal"
-        android:weightSum="3"
+        android:weightSum="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-
-        >
+        app:layout_constraintStart_toStartOf="parent">
 
 
         <Button
@@ -110,7 +86,7 @@
             android:layout_weight="1"
             android:onClick="addNewTaskButtonListener"
             android:text="@string/add_task_button"
-            android:textColor="@color/basicOrganisertextColor" />
+            android:textColor="@color/basicOrganiserTextColor" />
 
 
         <Button
@@ -121,90 +97,110 @@
             android:layout_weight="1"
             android:onClick="deleteCheckedTaskButtonListener"
             android:text="@string/delete_task_button"
-            android:textColor="@color/basicOrganisertextColor" />
+            android:textColor="@color/basicOrganiserTextColor" />
 
-        <Button
-            android:id="@+id/logout_button"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="logoutButtonListener"
-            android:text="@string/logout_button"
-            android:textColor="@color/basicOrganisertextColor" />
     </LinearLayout>
 
     <HorizontalScrollView
-        android:layout_width="368dp"
-        android:layout_height="376dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="435dp"
+        android:layout_margin="8dp"
         android:fillViewport="true"
         app:layout_constraintBottom_toTopOf="@+id/buttons_panel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
         app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="1"
             android:baselineAligned="false"
-            >
+            android:orientation="horizontal"
+            android:weightSum="1">
 
-            <ListView
-                android:id="@+id/listview_for_tasks_to_do"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-                android:layout_weight="1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.333"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+                android:layout_height="match_parent">
 
-            <ListView
-                android:id="@+id/listview_for_done_task"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-                android:layout_weight="1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.333"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:gravity="center"
+                    android:text="@string/to_do"
+                    android:textColor="@color/basicOrganiserTextColor"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-            <ListView
-                android:id="@+id/listview_for_task_in_progress"
+                <ListView
+                    android:id="@+id/listview_for_tasks_to_do"
+                    android:layout_width="352dp"
+                    android:layout_height="419dp"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-                android:layout_weight="1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.333"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView1"
+                    android:gravity="center"
+                    android:text="@string/in_progress"
+                    android:textColor="@color/basicOrganiserTextColor"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ListView
+                    android:id="@+id/listview_for_task_in_progress"
+                    android:layout_width="352dp"
+                    android:layout_height="419dp"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.333"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView1" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:id="@+id/textView2"
+                    android:text="@string/done"
+                    android:textColor="@color/basicOrganiserTextColor"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ListView
+                    android:id="@+id/listview_for_done_task"
+                    android:layout_width="352dp"
+                    android:layout_height="419dp"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            </android.support.constraint.ConstraintLayout>
         </LinearLayout>
-    </HorizontalScrollView>
 
+
+    </HorizontalScrollView>
 </android.support.constraint.ConstraintLayout>

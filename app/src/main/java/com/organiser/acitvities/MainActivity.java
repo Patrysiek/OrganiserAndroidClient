@@ -2,66 +2,70 @@ package com.organiser.acitvities;
 
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.organiser.asyncTasks.TaskAdder;
 import com.organiser.asyncTasks.TaskDeleter;
-import com.organiser.asyncTasks.ILoadTasksCallback;
+import com.organiser.asyncTasksCallbacks.ILoadTasksCallback;
 import com.organiser.asyncTasks.TaskStatusUpdater;
 import com.organiser.dialogs.AddTaskDialog;
 import com.organiser.dialogs.AddTaskDialogCallback;
 import com.organiser.R;
 import com.organiser.asyncTasks.TaskLoader;
-import com.organiser.asyncTasks.ITaskLoaderCallback;
+import com.organiser.asyncTasksCallbacks.ITaskLoaderCallback;
 import com.organiser.dialogs.TaskStatusDialogCallback;
 import com.organiser.helpers.DateManager;
 import com.organiser.helpers.IsetDateText;
-import com.organiser.helpers.LoginChecker;
-import com.organiser.helpers.ObjectParser;
-import com.organiser.taskList.TaskListLayoutManager;
+import com.organiser.taskList.TaskListListener;
+import com.organiser.taskList.ListViewUpdater;
 import com.organiser.taskList.TaskListManager;
 import com.organiser.services.TaskService;
 
-import com.organiser.user.User;
-import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements AddTaskDialogCallback,ITaskLoaderCallback,IsetDateText,ILoadTasksCallback,TaskStatusDialogCallback {
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity
+        implements AddTaskDialogCallback,ITaskLoaderCallback,IsetDateText,ILoadTasksCallback,TaskStatusDialogCallback {
 
     private TextView dateText;
     private Calendar calendar;
     private TaskService taskService;
     private TaskListManager taskListManager;
     private DateManager dateManager;
+    private List<ListView> listViews;
+    private ListViewUpdater listViewUpdater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        User user = ObjectParser.parseUser(LoginChecker.getUser(this));
-
-        TextView userNameTitle = findViewById(R.id.user_name_title);
-        if(user!=null) {
-            userNameTitle.setText(user.getName());
-            taskService = new TaskService(user.getLogin() + "table");
-        }
-        else {
-            userNameTitle.setText(R.string.error);
-            taskService = new TaskService("");
-        }
+        listViewUpdater = new ListViewUpdater(findViewById(android.R.id.content));
+        taskService = new TaskService(getIntent().getStringExtra("userName") + "table");
+        initListViewList();
 
         calendar = Calendar.getInstance();
         dateText = findViewById(R.id.date_text);
         dateManager = new DateManager(this);
         dateManager.initDate(calendar,0);
+
+
     }
+
+    private void initListViewList() {
+        listViews = new ArrayList<>();
+        listViews.add((ListView)findViewById(R.id.listview_for_task_in_progress));
+        listViews.add((ListView)findViewById(R.id.listview_for_tasks_to_do));
+        listViews.add((ListView)findViewById(R.id.listview_for_done_task));
+    }
+
     ///////////////////////////////BUTTONS LISTENERS////////////////////////////////////////////////
     public void switchDayButtonListener(View view) {
         dateManager.switchDay(view.getId(),calendar);
@@ -76,16 +80,18 @@ public class MainActivity extends AppCompatActivity implements AddTaskDialogCall
     public void DateTextListener(View view){
         dateManager.onDateTextClick(calendar,this);
     }
-    public void logoutButtonListener(View v){
-        LoginChecker.clearPrefs(this);
-        Toast.makeText(this,"Logout successfully !",Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(this,LoginActivity.class));
-    }
     ///////////////////////////////INTERFACES LISTENERS/////////////////////////////////////////////
     @Override
-    public void initTaskListManager(TaskListManager taskListManager) {
-        this.taskListManager = taskListManager;
-        new TaskListLayoutManager(taskListManager,findViewById(android.R.id.content),getSupportFragmentManager()).setTaskListLayout();
+    public void updateTaskListManager(TaskListManager manager) {
+        taskListManager = manager;
+
+        listViewUpdater.updateListView(taskListManager.getInProgressTaskList(),listViews.get(0));
+        listViewUpdater.updateListView(taskListManager.getToDoTasksList(),listViews.get(1));
+        listViewUpdater.updateListView(taskListManager.getDoneTasksList(),listViews.get(2));
+
+        TaskListListener listener = new TaskListListener();
+        for(ListView lv : listViews) listener.setListViewListener(lv,getSupportFragmentManager());
+
     }
     @Override
     public void onAddTaskDialogPositiveClick(String  description, String choose) {

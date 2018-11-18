@@ -7,14 +7,13 @@
     android:weightSum="3"
     >
     <TextView
-        android:id="@+id/status_item"
+        android:id="@+id/add_status_item"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:textAlignment="center"
-        android:textColor="@color/basicOrganiserTextColor"
+        android:textColor="@drawable/selectable_text_view"
         android:textSize="20sp"
-        android:background="@drawable/bordered_text_view"
         />
 
 </LinearLayout>

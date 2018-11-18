@@ -1,27 +1,20 @@
 package com.organiser.asyncTasks;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
-import com.organiser.acitvities.MainActivity;
-import com.organiser.helpers.LoginChecker;
+import com.organiser.asyncTasksCallbacks.LoginTheUserCallback;
 import com.organiser.services.UserService;
 import com.organiser.user.UserDAO;
 
-import java.lang.ref.WeakReference;
 
 public class LoginTheUser extends AsyncTask<String,Void,String> {
 
     private UserService userService;
+    private LoginTheUserCallback listener;
 
-    private WeakReference<Context> contextRef;
-
-    public LoginTheUser(UserDAO userDAO, Context context) {
+    public LoginTheUser(UserDAO userDAO, LoginTheUserCallback listener) {
         this.userService = new UserService(userDAO);
-        contextRef = new WeakReference<>(context);
-
+        this.listener = listener;
     }
 
     @Override
@@ -36,22 +29,15 @@ public class LoginTheUser extends AsyncTask<String,Void,String> {
 
     @Override
     protected void onPostExecute(String s) {
-        Context context = contextRef.get();
         if (s != null) {
             if (s.length() > 0) {
-                startMainActivity(s);
+                listener.startTaskChoiceActivity(s);
             } else {
-                Toast toast = Toast.makeText(context, "You pass invalid login or password", Toast.LENGTH_SHORT);
-                toast.show();
+
+                listener.invalidLoginOrPassword();
             }
         }
-        Toast.makeText(context, "Server error ! ", Toast.LENGTH_SHORT).show();
+        listener.serverError();
     }
 
-    private void startMainActivity(String userData) {
-        Context context = contextRef.get();
-        contextRef.clear();
-        LoginChecker.saveUser(context,userData);
-        context.startActivity(new Intent(context,MainActivity.class));
-    }
 }

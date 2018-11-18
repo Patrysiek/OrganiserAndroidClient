@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:weightSum="3"
+    android:orientation="vertical"
+    android:background="@color/basicOrganiserBgColor"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="@string/default_text"
+        android:textColor="@android:color/white"
+        android:textSize="40sp"
+        android:gravity="center"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:weightSum="2"
+        >
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/holo_red_dark"
+            android:layout_margin="10dp"
+            android:text="@string/my_tasks"
+            android:textColor="@android:color/white"
+            android:textSize="40sp"
+            android:textAlignment="center"
+            android:onClick="loadMainActivity"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/holo_blue_dark"
+            android:layout_margin="10dp"
+            android:text="@string/shared_tasks"
+            android:textColor="@android:color/white"
+            android:textSize="40sp"
+            android:textAlignment="center"
+            android:onClick="loadSharedTasksActivity"
+            />
+
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/lightyellow"
+        android:layout_margin="10dp"
+        android:text="@string/logout_button"
+        android:textColor="@android:color/white"
+        android:textSize="40sp"
+        android:textAlignment="center"
+        android:onClick="logout"
+        />
+</LinearLayout>

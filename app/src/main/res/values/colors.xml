@@ -5,5 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="basicOrganiserBgColor">#222</color>
     <color name="darkerBasicOrganiserBgColor">#171717</color>
-    <color name="basicOrganisertextColor">#CCCCCC</color>
+    <color name="basicOrganiserTextColor">#CCCCCC</color>
+    <color name="basicOrganiserHintTextColor">#33aaaaaa</color>
+    <color name="lightyellow">#FFFF00</color>
 </resources>

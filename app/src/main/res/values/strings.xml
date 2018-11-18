@@ -21,4 +21,15 @@
     <string name="title_activity_settings">Settings</string>
     <string name="ip_text"></string>
     <string name="error">Error</string>
+    <string name="add_task_dialog_title">ADD TASK</string>
+    <string name="my_tasks">MY TASKS</string>
+    <string name="shared_tasks">SHARED TASKS</string>
+    <string name="title_activity_shared_tasks">SharedTasksActivity</string>
+    <string name="to_do">ToDo</string>
+    <string name="in_progress">inProgress</string>
+    <string name="done">Done</string>
+    <string name="create_table">Create</string>
+    <string name="add_table">Add</string>
+    <string name="refresh">Refresh</string>
+    <string name="delete_table">Delete</string>
 </resources>

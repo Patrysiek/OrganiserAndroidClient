@@ -8,19 +8,19 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.organiser.R;
-import com.organiser.task.ListViewTaskHolder;
-import com.organiser.task.Task;
+import com.organiser.task.CheckableAndDescriptionable;
+import com.organiser.task.CustomListViewHolder;
 
 import java.util.List;
 
-public class TaskAdapter extends BaseAdapter {
+public class CustomAdapter extends BaseAdapter {
 
 
-    private List<Task> taskList;
+    private List<? extends CheckableAndDescriptionable> taskList;
 
     private Context ctx;
 
-    public TaskAdapter(Context ctx, List<Task> taskList) {
+    public CustomAdapter(Context ctx, List<? extends CheckableAndDescriptionable> taskList) {
         this.ctx = ctx;
         this.taskList = taskList;
     }
@@ -52,11 +52,11 @@ public class TaskAdapter extends BaseAdapter {
     @Override
     public View getView(int itemIndex, View convertView, ViewGroup viewGroup) {
 
-        ListViewTaskHolder viewHolder;
+        CustomListViewHolder viewHolder;
 
         if(convertView!=null)
         {
-            viewHolder = (ListViewTaskHolder) convertView.getTag();
+            viewHolder = (CustomListViewHolder) convertView.getTag();
         }else
         {
             convertView = View.inflate(ctx, R.layout.list_item, null);
@@ -65,16 +65,16 @@ public class TaskAdapter extends BaseAdapter {
 
             TextView listTaskText = convertView.findViewById(R.id.list_view_task_text);
 
-            viewHolder = new ListViewTaskHolder(convertView);
-            viewHolder.setTaskCheckbox(listTaskCheckbox);
-            viewHolder.setTaskTextView(listTaskText);
+            viewHolder = new CustomListViewHolder(convertView);
+            viewHolder.setCheckbox(listTaskCheckbox);
+            viewHolder.setTextView(listTaskText);
 
             convertView.setTag(viewHolder);
         }
 
-        Task listViewItemDto = taskList.get(itemIndex);
-        viewHolder.getTaskCheckbox().setChecked(listViewItemDto.isChecked());
-        viewHolder.getTaskTextView().setText(listViewItemDto.getDescription());
+        CheckableAndDescriptionable listViewItemDto = taskList.get(itemIndex);
+        viewHolder.getCheckbox().setChecked(listViewItemDto.isChecked());
+        viewHolder.getTextView().setText(listViewItemDto.getDescription());
 
         return convertView;
     }

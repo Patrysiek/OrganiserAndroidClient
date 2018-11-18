@@ -32,7 +32,18 @@
             android:name=".acitvities.MainActivity"
             android:label="Organiser"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".acitvities.RegisterActivity" />
+
+        <activity android:name=".acitvities.RegisterActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".acitvities.MenuActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".acitvities.SharedTablesActivity"
+            android:label="@string/title_activity_shared_tasks"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
     </application>
 
 </manifest>

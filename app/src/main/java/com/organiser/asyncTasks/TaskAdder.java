@@ -2,6 +2,7 @@ package com.organiser.asyncTasks;
 
 import android.os.AsyncTask;
 
+import com.organiser.asyncTasksCallbacks.ILoadTasksCallback;
 import com.organiser.services.TaskService;
 
 public class TaskAdder extends AsyncTask<String,Void,Void> {

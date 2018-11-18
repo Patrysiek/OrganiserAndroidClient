@@ -18,32 +18,15 @@
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
         android:layout_marginStart="32dp"
+        android:onClick="login"
         android:text="@string/login_button"
         app:layout_constraintBottom_toTopOf="@+id/register_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_chainStyle="spread"
-        android:onClick="login"
-        />
+        app:layout_constraintVertical_chainStyle="spread" />
 
     <Button
         android:id="@+id/register_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginStart="32dp"
-        android:text="@string/register_button"
-        app:layout_constraintBottom_toTopOf="@+id/go_offline_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:onClick="register"
-        />
-
-    <Button
-        android:id="@+id/go_offline_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -51,13 +34,13 @@
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
         android:layout_marginStart="32dp"
-        android:text="@string/go_offline_button"
+        android:onClick="register"
+        android:text="@string/register_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        android:onClick="goOffline"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
+
 
     <EditText
         android:id="@+id/login_edit"
@@ -66,28 +49,32 @@
         android:layout_marginTop="32dp"
         android:ems="10"
         android:hint="@string/login_name"
-        android:textColorHint="@color/basicOrganisertextColor"
-        android:textColor="@color/basicOrganisertextColor"
         android:inputType="textPersonName"
+        android:textColor="@color/basicOrganiserTextColor"
+        android:textColorHint="@color/basicOrganiserHintTextColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="20sp"/>
 
     <EditText
         android:id="@+id/password_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:ems="10"
         android:hint="@string/password_name"
-        android:textColorHint="@color/basicOrganisertextColor"
-        android:textColor="@color/basicOrganisertextColor"
         android:inputType="textPassword"
+        android:textColor="@color/basicOrganiserTextColor"
+        android:textColorHint="@color/basicOrganiserHintTextColor"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_edit" />
-
+        app:layout_constraintTop_toBottomOf="@+id/login_edit"
+        android:textSize="20sp"/>
 
 
 </android.support.constraint.ConstraintLayout>

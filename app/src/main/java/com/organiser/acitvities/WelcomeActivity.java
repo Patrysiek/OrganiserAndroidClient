@@ -24,6 +24,6 @@ public class WelcomeActivity extends AppCompatActivity {
         if(LoginChecker.getUser(this)==null)
             new Handler().postDelayed(() -> startActivity(new Intent(this, LoginActivity.class)),3000);
         else
-            new Handler().postDelayed(() -> startActivity(new Intent(this, MainActivity.class)),3000);
+            new Handler().postDelayed(() -> startActivity(new Intent(this, MenuActivity.class)),3000);
         }
 }

@@ -2,6 +2,8 @@ package com.organiser.asyncTasks;
 
 
 import android.os.AsyncTask;
+
+import com.organiser.asyncTasksCallbacks.ITaskLoaderCallback;
 import com.organiser.taskList.TaskListManager;
 import com.organiser.services.TaskService;
 
@@ -23,7 +25,7 @@ public class TaskLoader extends AsyncTask<String,Void,TaskListManager>{
     }
     @Override
     protected void onPostExecute(TaskListManager taskListManager) {
-        listener.initTaskListManager(taskListManager);
+        listener.updateTaskListManager(taskListManager);
     }
 
 

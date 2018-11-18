@@ -13,7 +13,7 @@ public class TaskListManager {
         doneTasksList = new ArrayList<>();
         toDoTasksList = new ArrayList<>();
         inProgressTaskList = new ArrayList<>();
-       groupLists();
+        groupLists();
     }
 
     private void groupLists() {
@@ -51,4 +51,5 @@ public class TaskListManager {
     public ArrayList<Task> getAllTasksList() {
         return allTasksList;
     }
+
 }

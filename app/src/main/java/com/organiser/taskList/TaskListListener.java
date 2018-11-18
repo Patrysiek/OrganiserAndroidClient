@@ -23,8 +23,7 @@ public class TaskListListener {
 
         listView.setOnItemLongClickListener((parent,view,position,id)-> {
             Task task = (Task)parent.getAdapter().getItem(position);
-
-            new TaskStatusDialog(task.getID()).show(manager,"SomeTag");
+            new TaskStatusDialog(task.getID()).show(manager,"task_status_dialog_tag");
             return true;
         });
     }
