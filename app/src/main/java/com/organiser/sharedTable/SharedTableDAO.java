@@ -25,9 +25,9 @@ public class SharedTableDAO {
         return ObjectParser.parserSharedTable(table);
     }
     ////////////ADDING TABLE FROM ALL SHARED TABLES TO USER SHARED TABLES///////////////////////////
-    public void insertIntoUserSharedTablesTable(String tableName,String hiddenName,String password) throws Exception {
+    public void insertIntoUserSharedTablesTable(String userTableName,String tableName,String hiddenName,String password) throws Exception {
         String url = this.url+"insertIntoUserSharedTablesTable";
-        String postData = "tablename="+tableName+"&hiddenname=" + hiddenName+"&password="+password;
+        String postData = "tablename="+userTableName+"&name="+tableName+"&hiddenname=" + hiddenName+"&password="+password;
 
         connection = new ConnectionHandler(url,postData);
         connection.close();

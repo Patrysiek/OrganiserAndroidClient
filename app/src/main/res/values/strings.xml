@@ -30,6 +30,7 @@
     <string name="done">Done</string>
     <string name="create_table">Create</string>
     <string name="add_table">Add</string>
+    <string name="add_table_title">Add table</string>
     <string name="refresh">Refresh</string>
     <string name="delete_table">Delete</string>
 </resources>

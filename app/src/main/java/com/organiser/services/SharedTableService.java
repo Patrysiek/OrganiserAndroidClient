@@ -15,8 +15,8 @@ public class SharedTableService {
     public  List<SharedTable> getParticularSharedTable(String hiddenName,String password)throws Exception{
         return sharedTableDAO.getParticularSharedTable(hiddenName,password);
     }
-    public void insertIntoUserSharedTablesTable(String tableName,String hiddenName,String password) throws Exception {
-        sharedTableDAO.insertIntoUserSharedTablesTable(tableName, hiddenName, password);
+    public void insertIntoUserSharedTablesTable(String userTableName,String tableName,String hiddenName,String password) throws Exception {
+        sharedTableDAO.insertIntoUserSharedTablesTable(userTableName,tableName, hiddenName, password);
         }
     public void addNewTableToSharedTables(String tableName, String password) throws Exception {
         sharedTableDAO.addNewTableToSharedTables(tableName, password);
