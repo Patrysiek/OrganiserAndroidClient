@@ -1,21 +1,11 @@
 package com.organiser.sharedTable;
 
-import com.organiser.task.CheckableAndDescriptionable;
+import com.organiser.checkableListView.CheckableAndDescriptionable;
 
 public class SharedTable implements CheckableAndDescriptionable {
     private int ID;
-    private String name,hiddenName,password;
+    private String name,hiddenName,password,firstOwner;
     private boolean checked;
-
-    public SharedTable(String name, String password, String hiddenName,int id) {
-        this.ID = id;
-        this.name = name;
-        this.hiddenName = hiddenName;
-        this.password = password;
-    }
-    public SharedTable(){
-
-    }
 
     public int getID() {
         return ID;
@@ -25,8 +15,8 @@ public class SharedTable implements CheckableAndDescriptionable {
         this.ID = ID;
     }
 
-    public String getName() {
-        return name;
+    public String getDesc() {
+        return hiddenName;
     }
 
     public void setName(String name) {
@@ -49,8 +39,16 @@ public class SharedTable implements CheckableAndDescriptionable {
         this.password = password;
     }
 
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    public String getFirstOwner() {
+        return firstOwner;
+    }
+
     @Override
-    public String getDescription() {
+    public String getName() {
         return name;
     }
 

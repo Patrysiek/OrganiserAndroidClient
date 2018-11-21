@@ -1,9 +1,7 @@
-package com.organiser.taskList;
+package com.organiser.checkableListView;
 
 import android.view.View;
 import android.widget.ListView;
-
-import com.organiser.task.CheckableAndDescriptionable;
 
 import java.lang.ref.WeakReference;
 import java.util.List;

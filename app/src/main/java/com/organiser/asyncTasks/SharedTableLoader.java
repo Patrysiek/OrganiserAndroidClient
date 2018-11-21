@@ -2,7 +2,7 @@ package com.organiser.asyncTasks;
 
 import android.os.AsyncTask;
 
-import com.organiser.asyncTasksCallbacks.SharedTableLoaderCallback;
+import com.organiser.asyncTasks.asyncTasksCallbacks.SharedTableLoaderCallback;
 import com.organiser.services.SharedTableService;
 import com.organiser.sharedTable.SharedTable;
 import com.organiser.sharedTable.SharedTableDAO;
@@ -30,6 +30,6 @@ public class SharedTableLoader extends AsyncTask<String,String,List<SharedTable>
 
     @Override
     protected void onPostExecute(List<SharedTable> sharedTableList) {
-        callback.initSharedTableList(sharedTableList);
+        callback.updateSharedTableList(sharedTableList);
     }
 }

@@ -5,5 +5,5 @@ import com.organiser.sharedTable.SharedTable;
 import java.util.List;
 
 public interface SharedTableLoaderCallback {
-    void initSharedTableList(List<SharedTable> sharedTableList);
+    void updateSharedTableList(List<SharedTable> sharedTableList);
 }

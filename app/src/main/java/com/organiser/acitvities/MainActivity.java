@@ -12,18 +12,18 @@ import android.widget.TextView;
 
 import com.organiser.asyncTasks.TaskAdder;
 import com.organiser.asyncTasks.TaskDeleter;
-import com.organiser.asyncTasksCallbacks.ILoadTasksCallback;
+import com.organiser.asyncTasks.asyncTasksCallbacks.ILoadTasksCallback;
 import com.organiser.asyncTasks.TaskStatusUpdater;
 import com.organiser.dialogs.AddTaskDialog;
-import com.organiser.dialogs.AddTaskDialogCallback;
+import com.organiser.dialogs.dialogsCallbacks.AddTaskDialogCallback;
 import com.organiser.R;
 import com.organiser.asyncTasks.TaskLoader;
-import com.organiser.asyncTasksCallbacks.ITaskLoaderCallback;
-import com.organiser.dialogs.TaskStatusDialogCallback;
+import com.organiser.asyncTasks.asyncTasksCallbacks.ITaskLoaderCallback;
+import com.organiser.dialogs.dialogsCallbacks.TaskStatusDialogCallback;
 import com.organiser.helpers.DateManager;
 import com.organiser.helpers.IsetDateText;
-import com.organiser.taskList.TaskListListener;
-import com.organiser.taskList.ListViewUpdater;
+import com.organiser.checkableListView.CustomListListener;
+import com.organiser.checkableListView.ListViewUpdater;
 import com.organiser.taskList.TaskListManager;
 import com.organiser.services.TaskService;
 
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listViewUpdater = new ListViewUpdater(findViewById(android.R.id.content));
-        taskService = new TaskService(getIntent().getStringExtra("userName") + "table");
+        taskService = new TaskService(getIntent().getStringExtra("userNameTable"));
         initListViewList();
 
         calendar = Calendar.getInstance();
@@ -89,8 +89,12 @@ public class MainActivity extends AppCompatActivity
         listViewUpdater.updateListView(taskListManager.getToDoTasksList(),listViews.get(1));
         listViewUpdater.updateListView(taskListManager.getDoneTasksList(),listViews.get(2));
 
-        TaskListListener listener = new TaskListListener();
-        for(ListView lv : listViews) listener.setListViewListener(lv,getSupportFragmentManager());
+        CustomListListener listener;
+        for(ListView lv : listViews) {
+            listener = new CustomListListener(lv);
+            listener.setOnTaskLongClickViewListener(getSupportFragmentManager());
+            listener.setOnCheckedkListener();
+        }
 
     }
     @Override

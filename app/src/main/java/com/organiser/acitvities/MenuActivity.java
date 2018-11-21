@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.organiser.R;
 import com.organiser.helpers.LoginChecker;
@@ -12,22 +13,25 @@ import com.organiser.user.User;
 
 public class MenuActivity extends AppCompatActivity {
     private User user;
+    private TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        textView = findViewById(R.id.user_name_menu);
        user = ObjectParser.parseUser(LoginChecker.getUser(this));
+       textView.setText(user.getName());
     }
 
 
     public void loadMainActivity(View v){
         Intent intent = new Intent(this,MainActivity.class);
-        intent.putExtra("userName",user.getName());
+        intent.putExtra("userNameTable",user.getLogin()+"table");
         startActivity(intent);
     }
     public void loadSharedTasksActivity(View v){
         Intent intent = new Intent(this,SharedTablesActivity.class);
-        intent.putExtra("userName",user.getName());
+        intent.putExtra("userName",user.getLogin());
         startActivity(intent);
     }
     public void logout(View v){

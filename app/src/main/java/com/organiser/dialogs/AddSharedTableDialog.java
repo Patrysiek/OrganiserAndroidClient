@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.organiser.R;
+import com.organiser.dialogs.dialogsCallbacks.AddSharedTableDialogCallback;
 
 
 public class AddSharedTableDialog extends DialogFragment {
@@ -44,17 +45,18 @@ public class AddSharedTableDialog extends DialogFragment {
 
         final View view = inflater.inflate(R.layout.add_shared_table_dialog, null);
         final EditText hiddenName = view.findViewById(R.id.hidden_name);
+        hiddenName.setHint(R.string.add_table_title);
         final EditText password = view.findViewById(R.id.password);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.AlertDialogCustom);
         TextView tv = initTitleText();
         builder.setView(view)
                 .setCustomTitle(tv)
-                .setPositiveButton(R.string.add_task_button,(DialogInterface dialog, int id) ->
+                .setPositiveButton(R.string.add_table_title,(DialogInterface dialog, int id) ->
                         mListener.addSharedTableDialogClick(hiddenName.getText().toString(),password.getText().toString())
                 )
                 .setNegativeButton(R.string.cancel, (DialogInterface dialog, int id) ->
-                        AddSharedTableDialog.this.getDialog().cancel()
+                        getDialog().cancel()
                 );
 
 

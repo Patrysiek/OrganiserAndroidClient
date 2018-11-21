@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 
 import com.organiser.R;
+import com.organiser.dialogs.dialogsCallbacks.TaskStatusDialogCallback;
 
 
 @SuppressLint("ValidFragment")

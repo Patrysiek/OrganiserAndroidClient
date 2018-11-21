@@ -1,4 +1,4 @@
-package com.organiser.task;
+package com.organiser.checkableListView;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

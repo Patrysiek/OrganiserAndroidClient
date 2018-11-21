@@ -2,7 +2,7 @@ package com.organiser.asyncTasks;
 
 import android.os.AsyncTask;
 
-import com.organiser.asyncTasksCallbacks.ILoadTasksCallback;
+import com.organiser.asyncTasks.asyncTasksCallbacks.ILoadTasksCallback;
 import com.organiser.services.TaskService;
 import com.organiser.task.Task;
 import com.organiser.taskList.TaskListManager;

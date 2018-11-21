@@ -1,5 +1,6 @@
 package com.organiser.sharedTable;
 
+
 import com.organiser.connection.ConnectionHandler;
 import com.organiser.helpers.ObjectParser;
 
@@ -25,18 +26,19 @@ public class SharedTableDAO {
         return ObjectParser.parserSharedTable(table);
     }
     ////////////ADDING TABLE FROM ALL SHARED TABLES TO USER SHARED TABLES///////////////////////////
-    public void insertIntoUserSharedTablesTable(String userTableName,String tableName,String hiddenName,String password) throws Exception {
+    public void insertIntoUserSharedTablesTable(String userTableName,String tableName,String hiddenName,String password,String firstOwner) throws Exception {
         String url = this.url+"insertIntoUserSharedTablesTable";
-        String postData = "tablename="+userTableName+"&name="+tableName+"&hiddenname=" + hiddenName+"&password="+password;
+        String postData = "tablename="+userTableName+"&name="+tableName+"&hiddenname=" + hiddenName+"&password="+password+"&firstOwner="+firstOwner;
 
         connection = new ConnectionHandler(url,postData);
         connection.close();
         connection.disconnect();
     }
     ///////////////////////////////////////////INSERTING NEW SHARED TABLE TO ALL SHARED TABLE LIST////////////////////////////////
-    public void addNewTableToSharedTables(String tableName, String password) throws Exception {
-        String url = this.url+"newTableSharedTables";
-        String postData = "tablename="+tableName+"&password="+password;
+    public void addNewTableToSharedTables(String tableName, String password,String firstOwner) throws Exception {
+        String url = this.url+"newTableToSharedTables";
+        String firstOwnerTableName=firstOwner+"sharedtable";
+        String postData = "tablename="+tableName+"&password="+password+"&firstOwner="+firstOwner+"&firstOwnerTablename="+firstOwnerTableName;
 
         connection = new ConnectionHandler(url,postData);
         connection.close();
@@ -45,13 +47,17 @@ public class SharedTableDAO {
     public List<SharedTable> getUserAllSharedTables(String tableName)throws Exception{
         String url = this.url+"userAllSharedTables";
         String postData = "tablename="+tableName;
-
         connection = new ConnectionHandler(url,postData);
         String table = connection.readPage();
         connection.close();
         connection.disconnect();
         return ObjectParser.parserSharedTable(table);
     }
-
-
+    public void createUserSharedTablesTable(String tableName)throws Exception{
+        String postData = "tablename="+tableName;
+        String url = this.url+"createUserSharedTablesTable";
+        connection = new ConnectionHandler(url,postData);
+        connection.close();
+        connection.disconnect();
+    }
 }

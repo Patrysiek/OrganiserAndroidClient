@@ -44,6 +44,7 @@ public class TaskDAO {
         String url = this.url+"inserttask";
         String postData = tablename+"&date=" + date+"&description="+description+"&status="+choose;
 
+
         connection = new ConnectionHandler(url,postData);
         connection.close();
         connection.disconnect();
@@ -52,7 +53,6 @@ public class TaskDAO {
     public  ArrayList<Task> getAllTasksFromDay(String date) throws Exception {
         String url = this.url+"alltasksfromday";
         String postData = tablename+"&date=" + date;
-
         connection = new ConnectionHandler(url,postData);
         ArrayList<Task> taskList = ObjectParser.parserTaskList(connection.readPage());
         connection.close();

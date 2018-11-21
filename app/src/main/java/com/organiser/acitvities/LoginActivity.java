@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.organiser.R;
 import com.organiser.asyncTasks.LoginTheUser;
-import com.organiser.asyncTasksCallbacks.LoginTheUserCallback;
+import com.organiser.asyncTasks.asyncTasksCallbacks.LoginTheUserCallback;
 import com.organiser.helpers.LoginChecker;
 import com.organiser.user.UserDAO;
 

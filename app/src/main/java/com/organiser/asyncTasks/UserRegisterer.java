@@ -1,53 +1,41 @@
 package com.organiser.asyncTasks;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.widget.Toast;
 
-import com.organiser.acitvities.LoginActivity;
+import android.os.AsyncTask;
+
+import com.organiser.asyncTasks.asyncTasksCallbacks.UserRegistererCallback;
+import com.organiser.services.SharedTableService;
 import com.organiser.services.TaskService;
 import com.organiser.services.UserService;
+import com.organiser.sharedTable.SharedTableDAO;
 import com.organiser.user.UserDAO;
 
-import java.lang.ref.WeakReference;
 
 public class UserRegisterer extends AsyncTask<String,Void,String> {
 
-    private WeakReference<Context> contextRef;
-    public UserRegisterer(Context context){
-        this.contextRef = new WeakReference<>(context);
-
+    private UserRegistererCallback callback;
+    public UserRegisterer(UserRegistererCallback callback){
+        this.callback = callback;
     }
     @Override
     protected String doInBackground(String... strings) {
         TaskService taskService = new TaskService(strings[0]+"table");
         UserService userService = new UserService(new UserDAO());
-        String answer = null;
+        String answer;
         try {
             answer = userService.createUser(strings[0],strings[1],strings[2]);
-            taskService.createTaskTable();
+            if(answer.equals("1")){
+                 taskService.createTaskTable();
+                new SharedTableService(new SharedTableDAO()).createUserSharedTablesTable(strings[0]+"sharedtable");
+                return answer;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return answer;
+        return "0";
     }
     @Override
     protected void onPostExecute(String answer) {
-        Context context = contextRef.get();
-        if(!answer.equals("1")) {
-            answer = "User already exists !";
-            Toast.makeText(context, answer, Toast.LENGTH_SHORT).show();
-        }else {
-            answer = "User created successfully !";
-            Toast.makeText(context, answer, Toast.LENGTH_SHORT).show();
-            loadNextActivity();
-        }
-    }
-    private void loadNextActivity() {
-        Context context = contextRef.get();
-        contextRef.clear();
-        new Handler().postDelayed(() -> context.startActivity(new Intent(context, LoginActivity.class)),3000);
+            callback.responseFromUserRegisterer(answer);
     }
 }

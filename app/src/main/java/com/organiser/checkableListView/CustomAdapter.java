@@ -1,4 +1,4 @@
-package com.organiser.taskList;
+package com.organiser.checkableListView;
 
 import android.content.Context;
 import android.view.View;
@@ -8,8 +8,6 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.organiser.R;
-import com.organiser.task.CheckableAndDescriptionable;
-import com.organiser.task.CustomListViewHolder;
 
 import java.util.List;
 
@@ -74,7 +72,7 @@ public class CustomAdapter extends BaseAdapter {
 
         CheckableAndDescriptionable listViewItemDto = taskList.get(itemIndex);
         viewHolder.getCheckbox().setChecked(listViewItemDto.isChecked());
-        viewHolder.getTextView().setText(listViewItemDto.getDescription());
+        viewHolder.getTextView().setText(listViewItemDto.getName());
 
         return convertView;
     }

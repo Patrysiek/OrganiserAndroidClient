@@ -1,9 +1,11 @@
 package com.organiser.task;
 
+import com.organiser.checkableListView.CheckableAndDescriptionable;
+
 import java.util.Date;
 
 
-public class Task implements CheckableAndDescriptionable{
+public class Task implements CheckableAndDescriptionable {
     private int ID;
     private Date date;
     private String description;
@@ -16,6 +18,10 @@ public class Task implements CheckableAndDescriptionable{
         return ID;
     }
 
+    @Override
+    public String getDesc() {
+        return description;
+    }
     public void setID(int ID) {
         this.ID = ID;
     }
@@ -28,7 +34,7 @@ public class Task implements CheckableAndDescriptionable{
         this.date = date;
     }
 
-    public String getDescription() {
+    public String getName() {
         return description;
     }
 

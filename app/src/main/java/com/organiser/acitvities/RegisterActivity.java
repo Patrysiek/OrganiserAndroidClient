@@ -1,5 +1,7 @@
 package com.organiser.acitvities;
 
+import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,8 +10,9 @@ import android.widget.Toast;
 
 import com.organiser.R;
 import com.organiser.asyncTasks.UserRegisterer;
+import com.organiser.asyncTasks.asyncTasksCallbacks.UserRegistererCallback;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements UserRegistererCallback {
 
 
     private EditText loginText,nameText,passwordText,confirmPasswordText;
@@ -31,16 +34,28 @@ public class RegisterActivity extends AppCompatActivity {
         if(password.length()>7) {
             if (password.equals(confirmPassword)) {
                 register();
-            } else
-                Toast.makeText(this, "Password must be longer than 7 characters", Toast.LENGTH_SHORT).show();
-        }
-        else Toast.makeText(this,"Passwords aren't equal",Toast.LENGTH_SHORT).show();
+            }else Toast.makeText(this,"Passwords aren't equal",Toast.LENGTH_SHORT).show();
+
+        } else
+            Toast.makeText(this, "Password must be longer than 7 characters", Toast.LENGTH_SHORT).show();
+
     }
 
     private void register() {
         new UserRegisterer(this).execute(loginText.getText().toString(), nameText.getText().toString(), passwordText.getText().toString());
     }
 
+    @Override
+    public void responseFromUserRegisterer(String answer) {
+        if(!answer.equals("1")) {
+            answer = "User already exists !";
+            Toast.makeText(this, answer, Toast.LENGTH_SHORT).show();
+        }else {
+            answer = "User created successfully !";
+            Toast.makeText(this, answer, Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(() -> startActivity(new Intent(this, LoginActivity.class)),3000);
+        }
+    }
 }
 
 

@@ -33,4 +33,6 @@
     <string name="add_table_title">Add table</string>
     <string name="refresh">Refresh</string>
     <string name="delete_table">Delete</string>
+    <string name="create_table_title">Create Table</string>
+    <string name="hidden_name">Hidden Name</string>
 </resources>

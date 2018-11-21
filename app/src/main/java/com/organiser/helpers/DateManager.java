@@ -6,7 +6,7 @@ import android.widget.DatePicker;
 
 import com.organiser.R;
 import com.organiser.acitvities.MainActivity;
-import com.organiser.asyncTasksCallbacks.ILoadTasksCallback;
+import com.organiser.asyncTasks.asyncTasksCallbacks.ILoadTasksCallback;
 
 import java.util.Calendar;
 
