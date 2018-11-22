@@ -1,4 +1,4 @@
-package com.organiser.asyncTasks;
+package com.organiser.asyncTasks.asyncTasksCallbacks;
 
 public interface UserRegistererCallback {
     void responseFromUserRegisterer(String answer);

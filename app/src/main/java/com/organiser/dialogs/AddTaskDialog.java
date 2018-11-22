@@ -58,7 +58,7 @@ public class AddTaskDialog extends DialogFragment {
 
         builder.setView(view)
                 .setCustomTitle(tv)
-                .setPositiveButton(R.string.add_task_button,(DialogInterface dialog, int id) ->
+                .setPositiveButton(R.string.add_task,(DialogInterface dialog, int id) ->
                         mListener.onAddTaskDialogPositiveClick(description.getText().toString(),choose)
                 )
                 .setNegativeButton(R.string.cancel, (DialogInterface dialog, int id) ->
@@ -73,7 +73,7 @@ public class AddTaskDialog extends DialogFragment {
     private TextView initTitleText() {
         TextView tv =  new TextView(getContext());
         tv.setGravity(Gravity.CENTER);
-        tv.setText(R.string.add_task_dialog_title);
+        tv.setText(R.string.add_task_capital);
         tv.setTextSize(25);
         tv.setTextColor(Color.parseColor("#CCCCCC"));
         return tv;

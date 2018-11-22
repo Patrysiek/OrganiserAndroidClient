@@ -1,4 +1,4 @@
-package com.organiser.asyncTasksCallbacks;
+package com.organiser.asyncTasks.asyncTasksCallbacks;
 
 public interface LoginTheUserCallback {
     void startTaskChoiceActivity(String userData);

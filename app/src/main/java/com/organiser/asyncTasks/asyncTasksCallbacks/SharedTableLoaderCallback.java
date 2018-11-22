@@ -1,4 +1,4 @@
-package com.organiser.asyncTasksCallbacks;
+package com.organiser.asyncTasks.asyncTasksCallbacks;
 
 import com.organiser.sharedTable.SharedTable;
 

@@ -32,26 +32,32 @@
         <Button
             android:id="@+id/create_shared_table_button"
             android:onClick="createSharedTable"
-            android:layout_width="0dp"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/create_table" />
+            android:textColor="@color/basicOrganiserTextColor"
+            android:text="@string/create" />
 
         <Button
             android:id="@+id/add_shared_table_button"
-            android:layout_width="0dp"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/add_table"
+            android:text="@string/add"
+            android:textColor="@color/basicOrganiserTextColor"
             android:onClick="addSharedTableFromServer"
             />
 
         <Button
             android:id="@+id/deleteshared_table_button"
-            android:layout_width="0dp"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/delete_table" />
+            android:textColor="@color/basicOrganiserTextColor"
+            android:text="@string/delete" />
 
 
     </LinearLayout>

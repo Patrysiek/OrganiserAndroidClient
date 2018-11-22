@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.organiser.asyncTasks.TaskAdder;
@@ -22,8 +23,8 @@ import com.organiser.asyncTasks.asyncTasksCallbacks.ITaskLoaderCallback;
 import com.organiser.dialogs.dialogsCallbacks.TaskStatusDialogCallback;
 import com.organiser.helpers.DateManager;
 import com.organiser.helpers.IsetDateText;
-import com.organiser.checkableListView.CustomListListener;
-import com.organiser.checkableListView.ListViewUpdater;
+import com.organiser.checkableTaskListView.TaskListListener;
+import com.organiser.checkableTaskListView.TaskListViewUpdater;
 import com.organiser.taskList.TaskListManager;
 import com.organiser.services.TaskService;
 
@@ -41,13 +42,13 @@ public class MainActivity extends AppCompatActivity
     private TaskListManager taskListManager;
     private DateManager dateManager;
     private List<ListView> listViews;
-    private ListViewUpdater listViewUpdater;
+    private TaskListViewUpdater listViewUpdater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        listViewUpdater = new ListViewUpdater(findViewById(android.R.id.content));
+        listViewUpdater = new TaskListViewUpdater(findViewById(android.R.id.content));
         taskService = new TaskService(getIntent().getStringExtra("userNameTable"));
         initListViewList();
 
@@ -83,18 +84,20 @@ public class MainActivity extends AppCompatActivity
     ///////////////////////////////INTERFACES LISTENERS/////////////////////////////////////////////
     @Override
     public void updateTaskListManager(TaskListManager manager) {
-        taskListManager = manager;
+        if(manager!=null) {
+            taskListManager = manager;
+            listViewUpdater.updateListView(taskListManager.getInProgressTaskList(), listViews.get(0));
+            listViewUpdater.updateListView(taskListManager.getToDoTasksList(), listViews.get(1));
+            listViewUpdater.updateListView(taskListManager.getDoneTasksList(), listViews.get(2));
 
-        listViewUpdater.updateListView(taskListManager.getInProgressTaskList(),listViews.get(0));
-        listViewUpdater.updateListView(taskListManager.getToDoTasksList(),listViews.get(1));
-        listViewUpdater.updateListView(taskListManager.getDoneTasksList(),listViews.get(2));
-
-        CustomListListener listener;
-        for(ListView lv : listViews) {
-            listener = new CustomListListener(lv);
-            listener.setOnTaskLongClickViewListener(getSupportFragmentManager());
-            listener.setOnCheckedkListener();
+            TaskListListener listener;
+            for (ListView lv : listViews) {
+                listener = new TaskListListener(lv);
+                listener.setOnTaskLongClickViewListener(getSupportFragmentManager());
+                listener.setOnCheckedkListener();
+            }
         }
+        else Toast.makeText(this,R.string.table_exist_error,Toast.LENGTH_SHORT).show();
 
     }
     @Override

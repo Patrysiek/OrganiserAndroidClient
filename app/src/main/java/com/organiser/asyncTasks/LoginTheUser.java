@@ -37,7 +37,8 @@ public class LoginTheUser extends AsyncTask<String,Void,String> {
                 listener.invalidLoginOrPassword();
             }
         }
-        listener.serverError();
+        else
+            listener.serverError();
     }
 
 }

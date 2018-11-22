@@ -12,7 +12,7 @@ public class SharedTableDAO {
     private String url;
 
     public SharedTableDAO(){
-        url ="http://10.0.2.2:8080/OrganiserWebService/";
+        url ="http://192.168.0.105:8080/OrganiserWebService/";
     }
     ////////////GETTING TABLE FROM ALL SHARED TABLES////////////////////////////////////////////////
     public  List<SharedTable> getParticularSharedTable(String hiddenName,String password) throws Exception {

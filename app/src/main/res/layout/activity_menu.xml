@@ -58,7 +58,7 @@
         android:layout_weight="1"
         android:background="@color/lightyellow"
         android:layout_margin="10dp"
-        android:text="@string/logout_button"
+        android:text="@string/logout"
         android:textColor="@android:color/white"
         android:textSize="40sp"
         android:textAlignment="center"

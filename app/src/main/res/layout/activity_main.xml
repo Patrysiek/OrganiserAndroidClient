@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="addNewTaskButtonListener"
-            android:text="@string/add_task_button"
+            android:text="@string/add_task"
             android:textColor="@color/basicOrganiserTextColor" />
 
 
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="deleteCheckedTaskButtonListener"
-            android:text="@string/delete_task_button"
+            android:text="@string/delete_task"
             android:textColor="@color/basicOrganiserTextColor" />
 
     </LinearLayout>

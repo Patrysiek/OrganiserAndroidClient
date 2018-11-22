@@ -1,4 +1,5 @@
 package com.organiser.asyncTasks.asyncTasksCallbacks;
 
-interface LoadSHaredTableListener {
+public interface LoadSharedTableListener {
+    void loadSharedTables();
 }
