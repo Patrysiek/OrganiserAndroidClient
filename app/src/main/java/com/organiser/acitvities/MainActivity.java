@@ -2,10 +2,12 @@ package com.organiser.acitvities;
 
 
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,7 +23,7 @@ import com.organiser.R;
 import com.organiser.asyncTasks.TaskLoader;
 import com.organiser.asyncTasks.asyncTasksCallbacks.ITaskLoaderCallback;
 import com.organiser.dialogs.dialogsCallbacks.TaskStatusDialogCallback;
-import com.organiser.helpers.DateManager;
+import com.organiser.helpers.DateInitializer;
 import com.organiser.helpers.IsetDateText;
 import com.organiser.checkableTaskListView.TaskListListener;
 import com.organiser.checkableTaskListView.TaskListViewUpdater;
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity
     private Calendar calendar;
     private TaskService taskService;
     private TaskListManager taskListManager;
-    private DateManager dateManager;
+    private DateInitializer dateInitializer;
     private List<ListView> listViews;
     private TaskListViewUpdater listViewUpdater;
 
@@ -54,10 +56,8 @@ public class MainActivity extends AppCompatActivity
 
         calendar = Calendar.getInstance();
         dateText = findViewById(R.id.date_text);
-        dateManager = new DateManager(this);
-        dateManager.initDate(calendar,0);
-
-
+        dateInitializer = new DateInitializer(this,this);
+        dateInitializer.initDate(calendar,0);
     }
 
     private void initListViewList() {
@@ -69,7 +69,20 @@ public class MainActivity extends AppCompatActivity
 
     ///////////////////////////////BUTTONS LISTENERS////////////////////////////////////////////////
     public void switchDayButtonListener(View view) {
-        dateManager.switchDay(view.getId(),calendar);
+            switch (view.getId()) {
+                case R.id.next_date_button:
+                    dateInitializer.initDate(calendar, 1);
+                    break;
+                case R.id.previous_date_button:
+                    dateInitializer.initDate(calendar, -1);
+                    break;
+            }
+    }
+    public void DateTextListener(View view){
+        new DatePickerDialog(this, android.R.style.Theme_Holo_Dialog_NoActionBar_MinWidth, (DatePicker datePicker, int year, int month, int dayOfMonth)-> {
+            calendar.set(year,month,dayOfMonth);
+            dateInitializer.initDate(calendar,0);
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
     public void addNewTaskButtonListener(View view){
         DialogFragment newFragment = new AddTaskDialog();
@@ -77,9 +90,6 @@ public class MainActivity extends AppCompatActivity
     }
     public void deleteCheckedTaskButtonListener(View view){
         new TaskDeleter(taskService,taskListManager,this).execute();
-    }
-    public void DateTextListener(View view){
-        dateManager.onDateTextClick(calendar,this);
     }
     ///////////////////////////////INTERFACES LISTENERS/////////////////////////////////////////////
     @Override

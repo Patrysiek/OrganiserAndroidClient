@@ -1,20 +1,22 @@
-package com.organiser.checkableListView;
+package com.organiser.checkableTaskListView;
 
 import android.view.View;
 import android.widget.ListView;
 
+import com.organiser.task.Task;
+
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-public class ListViewUpdater {
+public class TaskListViewUpdater {
 
     private WeakReference<View> viewWeakReference;
-    public ListViewUpdater(View view){
+    public TaskListViewUpdater(View view){
         this.viewWeakReference = new WeakReference<>(view);
     }
-    public void updateListView(List<? extends CheckableAndDescriptionable> arrayList, ListView listView){
+    public void updateListView(List<Task> arrayList, ListView listView){
         View view = viewWeakReference.get();
-        CustomAdapter adapter = new CustomAdapter(view.getContext(), arrayList);
+        TaskAdapter adapter = new TaskAdapter(view.getContext(), arrayList);
         adapter.notifyDataSetChanged();
         listView.setAdapter(adapter);
     }

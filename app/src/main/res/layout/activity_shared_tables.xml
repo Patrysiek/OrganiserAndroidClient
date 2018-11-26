@@ -51,13 +51,14 @@
             />
 
         <Button
-            android:id="@+id/deleteshared_table_button"
+            android:id="@+id/refresh_shared_table_button"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="refreshView"
             android:textColor="@color/basicOrganiserTextColor"
-            android:text="@string/delete" />
+            android:text="@string/refresh" />
 
 
     </LinearLayout>

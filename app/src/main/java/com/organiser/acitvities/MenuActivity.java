@@ -36,6 +36,8 @@ public class MenuActivity extends AppCompatActivity {
     }
     public void logout(View v){
         LoginChecker.clearPrefs(this);
-        startActivity(new Intent(this,LoginActivity.class));
+        Intent i = new Intent(this,LoginActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
     }
 }

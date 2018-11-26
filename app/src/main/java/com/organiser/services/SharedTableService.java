@@ -27,4 +27,16 @@ public class SharedTableService {
     public void createUserSharedTablesTable(String tableName) throws Exception {
         sharedTableDAO.createUserSharedTablesTable(tableName);
     }
+
+    public void deleteFromUserSharedTablesTable(String userSharedTableName,String hiddenName) throws Exception {
+        sharedTableDAO.deleteFromUserSharedTablesTable(userSharedTableName,hiddenName);
+    }
+
+    public void dropSharedTable(String tableName) throws Exception  {
+        sharedTableDAO.dropSharedTable(tableName);
+    }
+
+    public void deleteTableFromAllSharedTablesTable(String hiddenName) throws Exception  {
+        sharedTableDAO.deleteTableFromAllSharedTablesTable(hiddenName);
+    }
 }

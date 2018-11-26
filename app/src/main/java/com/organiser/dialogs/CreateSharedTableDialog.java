@@ -47,6 +47,7 @@ public class CreateSharedTableDialog extends DialogFragment {
 
         final View view = inflater.inflate(R.layout.add_shared_table_dialog, null);
         final EditText tableName = view.findViewById(R.id.hidden_name);
+        tableName.setHint(R.string.name);
         final EditText password = view.findViewById(R.id.password);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),R.style.AlertDialogCustom);

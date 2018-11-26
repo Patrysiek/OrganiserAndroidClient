@@ -34,10 +34,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity android:name=".acitvities.RegisterActivity"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".acitvities.MenuActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            />
 
         <activity
             android:name=".acitvities.SharedTablesActivity"

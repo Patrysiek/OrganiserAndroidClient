@@ -1,15 +1,15 @@
-package com.organiser.checkableListView;
+package com.organiser.checkableTaskListView;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-public class CustomListViewHolder extends RecyclerView.ViewHolder{
+public class TaskListViewHolder extends RecyclerView.ViewHolder{
     private CheckBox checkbox;
     private TextView textView;
 
-    public CustomListViewHolder(View taskView) {
+    public TaskListViewHolder(View taskView) {
         super(taskView);
     }
 

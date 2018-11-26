@@ -60,4 +60,28 @@ public class SharedTableDAO {
         connection.close();
         connection.disconnect();
     }
+
+    public void deleteFromUserSharedTablesTable(String userSharedTableName,String hiddenName)throws Exception {
+        String postData = "tablename="+userSharedTableName+"&hiddenname="+hiddenName;
+        String url = this.url+"deleteFromUserSharedTablesTable";
+        connection = new ConnectionHandler(url,postData);
+        connection.close();
+        connection.disconnect();
+    }
+
+    public void dropSharedTable(String hiddenName) throws Exception {
+        String postData = "tablename="+hiddenName;
+        String url = this.url+"dropTable";
+        connection = new ConnectionHandler(url,postData);
+        connection.close();
+        connection.disconnect();
+    }
+
+    public void deleteTableFromAllSharedTablesTable(String tableName)throws Exception  {
+        String postData = "hiddenName="+tableName;
+        String url = this.url+"deleteTableFromAllSharedTables";
+        connection = new ConnectionHandler(url,postData);
+        connection.close();
+        connection.disconnect();
+    }
 }

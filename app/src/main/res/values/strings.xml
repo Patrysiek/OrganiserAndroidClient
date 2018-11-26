@@ -38,4 +38,6 @@
     <string name="ok">OK</string>
     <string name="details">Details</string>
     <string name="table_exist_error">Table doesn\'t exist anymore !</string>
+    <string name="delete_confirmation">Are you sure to delete ?</string>
+    <string name="delete_whole_table">Delete whole table</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.organiser.checkableListView;
+package com.organiser.checkableTaskListView;
 
 import android.content.Context;
 import android.view.View;
@@ -8,17 +8,18 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.organiser.R;
+import com.organiser.task.Task;
 
 import java.util.List;
 
-public class CustomAdapter extends BaseAdapter {
+public class TaskAdapter extends BaseAdapter {
 
 
-    private List<? extends CheckableAndDescriptionable> taskList;
+    private List<Task> taskList;
 
     private Context ctx;
 
-    public CustomAdapter(Context ctx, List<? extends CheckableAndDescriptionable> taskList) {
+    public TaskAdapter(Context ctx, List<Task> taskList) {
         this.ctx = ctx;
         this.taskList = taskList;
     }
@@ -50,27 +51,26 @@ public class CustomAdapter extends BaseAdapter {
     @Override
     public View getView(int itemIndex, View convertView, ViewGroup viewGroup) {
 
-        CustomListViewHolder viewHolder;
+        TaskListViewHolder viewHolder;
 
         if(convertView!=null)
         {
-            viewHolder = (CustomListViewHolder) convertView.getTag();
-        }else
-        {
+            viewHolder = (TaskListViewHolder) convertView.getTag();
+        }else {
             convertView = View.inflate(ctx, R.layout.list_item, null);
 
             CheckBox listTaskCheckbox = convertView.findViewById(R.id.list_view_task_checkbox);
 
             TextView listTaskText = convertView.findViewById(R.id.list_view_task_text);
 
-            viewHolder = new CustomListViewHolder(convertView);
+            viewHolder = new TaskListViewHolder(convertView);
             viewHolder.setCheckbox(listTaskCheckbox);
             viewHolder.setTextView(listTaskText);
 
             convertView.setTag(viewHolder);
         }
 
-        CheckableAndDescriptionable listViewItemDto = taskList.get(itemIndex);
+        Task listViewItemDto = taskList.get(itemIndex);
         viewHolder.getCheckbox().setChecked(listViewItemDto.isChecked());
         viewHolder.getTextView().setText(listViewItemDto.getName());
 
