@@ -63,7 +63,8 @@ public class AddTaskDialog extends DialogFragment {
                 )
                 .setNegativeButton(R.string.cancel, (DialogInterface dialog, int id) ->
                         AddTaskDialog.this.getDialog().cancel()
-                ).setSingleChoiceItems(itemAdapter, 0, (DialogInterface dialog, int which) ->
+                )
+                .setSingleChoiceItems(itemAdapter, 0, (DialogInterface dialog, int which) ->
             setChoose(which));
 
         return builder.create();

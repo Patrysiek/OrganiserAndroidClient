@@ -33,6 +33,7 @@ public class TaskDeleter extends AsyncTask<Void,Void,Void> {
             }
         }
         try {
+            if(IDs.size()>0)
             taskService.deleteTask(IDs);
         } catch (Exception e) {
             e.printStackTrace();
