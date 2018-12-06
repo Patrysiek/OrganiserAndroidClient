@@ -10,19 +10,13 @@ import java.util.ArrayList;
 public class TaskDAO {
 
     private ConnectionHandler connection;
-    private String url;
     private String tablename;
 
     public TaskDAO(String tablename){
-
-
-        url ="http://192.168.0.105:8080/OrganiserWebService/";
         this.tablename = "tablename="+tablename;
     }
-
-
     public  void deleteTask(ArrayList<Integer> ID) throws Exception {
-        String url = this.url+"deletetask";
+        String url = "deletetask";
         StringBuilder IDs = new StringBuilder();
 
 
@@ -35,23 +29,18 @@ public class TaskDAO {
 
         String postData = tablename+"&ID=" + IDs.toString();
 
-        connection = new ConnectionHandler(url,postData);
-        connection.close();
-        connection.disconnect();
+        performConnection(url,postData);
     }
 
     public  void insertTask(String date,String description,String choose) throws Exception {
-        String url = this.url+"inserttask";
+        String url = "inserttask";
         String postData = tablename+"&date=" + date+"&description="+description+"&status="+choose;
 
-
-        connection = new ConnectionHandler(url,postData);
-        connection.close();
-        connection.disconnect();
+        performConnection(url,postData);
     }
 
     public  ArrayList<Task> getAllTasksFromDay(String date) throws Exception {
-        String url = this.url+"alltasksfromday";
+        String url = "alltasksfromday";
         String postData = tablename+"&date=" + date;
         connection = new ConnectionHandler(url,postData);
         ArrayList<Task> taskList = ObjectParser.parserTaskList(connection.readPage());
@@ -60,17 +49,20 @@ public class TaskDAO {
         return taskList;
     }
     public void createTaskTable()throws Exception {
-        String url = this.url+"createtasktable";
+        String url = "createtasktable";
         String postData = this.tablename;
 
-        connection = new ConnectionHandler(url,postData);
-        connection.close();
-        connection.disconnect();
+        performConnection(url,postData);
     }
 
     public void updateTask(String ID, String status) throws Exception{
-        String url = this.url+"updatetask";
+        String url = "updatetask";
         String postData = tablename+"&ID=" +ID+"&status="+status;
+
+        performConnection(url,postData);
+    }
+
+    public void performConnection(String url, String postData)throws Exception{
         connection = new ConnectionHandler(url,postData);
         connection.close();
         connection.disconnect();

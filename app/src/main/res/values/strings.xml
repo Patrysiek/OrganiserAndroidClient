@@ -40,4 +40,7 @@
     <string name="table_exist_error">Table doesn\'t exist anymore !</string>
     <string name="delete_confirmation">Are you sure to delete ?</string>
     <string name="delete_whole_table">Delete whole table</string>
+
+
+    <string name="SERVER_IP">192.168.0.105</string>
 </resources>

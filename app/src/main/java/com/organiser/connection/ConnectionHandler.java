@@ -15,13 +15,36 @@ public class ConnectionHandler{
     private String url;
     private String postData;
     private HttpURLConnection conn;
+    private final String SERVER_PROTOCOL = "http";
+    private final String SERVER_ADDERSS = "OrganiserWebService";
+    private final String SERVER_IP = "192.168.1.27";
+    private final String SERVER_PORT = "8080";
+
+
     public ConnectionHandler(String url, String postData) throws Exception {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        this.url = url;
+
+        assembeUrl(url);
+
         this.postData = postData;
         conn = initConnection();
     }
+
+    private void assembeUrl(String url) {
+        this.url = new StringBuilder()
+                .append(SERVER_PROTOCOL)
+                .append("://")
+                .append(SERVER_IP)
+                .append(":")
+                .append(SERVER_PORT)
+                .append("/")
+                .append(SERVER_ADDERSS)
+                .append("/")
+                .append(url)
+                .toString();
+    }
+
     private  HttpURLConnection initConnection() throws Exception {
 
         conn = (HttpURLConnection) new URL(url).openConnection();

@@ -9,14 +9,10 @@ import java.util.List;
 public class SharedTableDAO {
 
     private ConnectionHandler connection;
-    private String url;
 
-    public SharedTableDAO(){
-        url ="http://192.168.0.105:8080/OrganiserWebService/";
-    }
     ////////////GETTING TABLE FROM ALL SHARED TABLES////////////////////////////////////////////////
     public  List<SharedTable> getParticularSharedTable(String hiddenName,String password) throws Exception {
-        String url = this.url+"particularSharedTables";
+        String url = "particularSharedTables";
         String postData = "hiddenname=" + hiddenName+"&password="+password;
 
         connection = new ConnectionHandler(url,postData);
@@ -27,25 +23,21 @@ public class SharedTableDAO {
     }
     ////////////ADDING TABLE FROM ALL SHARED TABLES TO USER SHARED TABLES///////////////////////////
     public void insertIntoUserSharedTablesTable(String userTableName,String tableName,String hiddenName,String password,String firstOwner) throws Exception {
-        String url = this.url+"insertIntoUserSharedTablesTable";
+        String url = "insertIntoUserSharedTablesTable";
         String postData = "tablename="+userTableName+"&name="+tableName+"&hiddenname=" + hiddenName+"&password="+password+"&firstOwner="+firstOwner;
 
-        connection = new ConnectionHandler(url,postData);
-        connection.close();
-        connection.disconnect();
+        performConnection(url,postData);
     }
     ///////////////////////////////////////////INSERTING NEW SHARED TABLE TO ALL SHARED TABLE LIST////////////////////////////////
     public void addNewTableToSharedTables(String tableName, String password,String firstOwner) throws Exception {
-        String url = this.url+"newTableToSharedTables";
+        String url = "newTableToSharedTables";
         String firstOwnerTableName=firstOwner+"sharedtable";
         String postData = "tablename="+tableName+"&password="+password+"&firstOwner="+firstOwner+"&firstOwnerTablename="+firstOwnerTableName;
+        performConnection(url,postData);
 
-        connection = new ConnectionHandler(url,postData);
-        connection.close();
-        connection.disconnect();
     }
     public List<SharedTable> getUserAllSharedTables(String tableName)throws Exception{
-        String url = this.url+"userAllSharedTables";
+        String url = "userAllSharedTables";
         String postData = "tablename="+tableName;
         connection = new ConnectionHandler(url,postData);
         String table = connection.readPage();
@@ -55,31 +47,29 @@ public class SharedTableDAO {
     }
     public void createUserSharedTablesTable(String tableName)throws Exception{
         String postData = "tablename="+tableName;
-        String url = this.url+"createUserSharedTablesTable";
-        connection = new ConnectionHandler(url,postData);
-        connection.close();
-        connection.disconnect();
+        String url = "createUserSharedTablesTable";
+        performConnection(url,postData);
     }
 
     public void deleteFromUserSharedTablesTable(String userSharedTableName,String hiddenName)throws Exception {
         String postData = "tablename="+userSharedTableName+"&hiddenname="+hiddenName;
-        String url = this.url+"deleteFromUserSharedTablesTable";
-        connection = new ConnectionHandler(url,postData);
-        connection.close();
-        connection.disconnect();
+        String url = "deleteFromUserSharedTablesTable";
+        performConnection(url,postData);
     }
 
     public void dropSharedTable(String hiddenName) throws Exception {
         String postData = "tablename="+hiddenName;
-        String url = this.url+"dropTable";
-        connection = new ConnectionHandler(url,postData);
-        connection.close();
-        connection.disconnect();
+        String url = "dropTable";
+        performConnection(url,postData);
     }
 
     public void deleteTableFromAllSharedTablesTable(String tableName)throws Exception  {
         String postData = "hiddenName="+tableName;
-        String url = this.url+"deleteTableFromAllSharedTables";
+        String url = "deleteTableFromAllSharedTables";
+        performConnection(url,postData);
+    }
+
+    public void performConnection(String url, String postData)throws Exception{
         connection = new ConnectionHandler(url,postData);
         connection.close();
         connection.disconnect();
