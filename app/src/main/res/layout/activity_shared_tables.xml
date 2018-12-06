@@ -7,18 +7,39 @@
     android:background="@color/basicOrganiserBgColor"
     tools:context=".acitvities.SharedTablesActivity">
 
-    <ListView
-        android:id="@+id/shared_task_list_view"
-        android:layout_width="316dp"
-        android:layout_height="462dp"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="368dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/shared_buttons_bar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </ListView>
+        <ListView
+            android:id="@+id/shared_task_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/shared_buttons_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </ListView>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/shared_buttons_bar"
@@ -31,13 +52,13 @@
 
         <Button
             android:id="@+id/create_shared_table_button"
-            android:onClick="createSharedTable"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/basicOrganiserTextColor"
-            android:text="@string/create" />
+            android:onClick="createSharedTable"
+            android:text="@string/create"
+            android:textColor="@color/basicOrganiserTextColor" />
 
         <Button
             android:id="@+id/add_shared_table_button"
@@ -45,10 +66,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/add"
-            android:textColor="@color/basicOrganiserTextColor"
             android:onClick="addSharedTableFromServer"
-            />
+            android:text="@string/add"
+            android:textColor="@color/basicOrganiserTextColor" />
 
         <Button
             android:id="@+id/refresh_shared_table_button"
@@ -57,9 +77,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="refreshView"
-            android:textColor="@color/basicOrganiserTextColor"
-            android:text="@string/refresh" />
+            android:text="@string/refresh"
+            android:textColor="@color/basicOrganiserTextColor" />
 
 
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
